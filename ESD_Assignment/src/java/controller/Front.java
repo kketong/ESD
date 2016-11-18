@@ -20,7 +20,37 @@ public class Front extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String page = "/WEB-INF/docs/main.jsp";
+        String id; // process Request URL
+        String page = "/WEB-INF/docs/mainView.jsp"; // what page to forward to ...
+        String include; // page to include into main.jsp
+
+        // find last part of requested resource
+        id = request.getRequestURI().substring(
+                request.getContextPath().length());
+
+        getServletContext().log("Front received a request for " + id);
+
+        switch (id) {
+            case "/Front":
+                include = "homePage.jsp";
+                break;
+            case "/docs/homePage":
+                include = "homePage.jsp";
+                break;
+            case "/docs/loginPage":
+                include = "loginPage.jsp";
+                break;
+            case "/docs/memberPage":
+                include = "memberPage.jsp";
+                break;
+            case "/docs/adminPage":
+                include = "adminPage.jsp";
+                break;
+            default:
+                include = "error.jsp";
+        }
+        
+        request.setAttribute("doco", include);
         request.getRequestDispatcher(page).forward(request, response);
     }
 
