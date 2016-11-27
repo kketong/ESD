@@ -11,18 +11,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DatabaseManager;
 
 /**
  *
  * @author jacka
  */
 public class Front extends HttpServlet {
+    
+    public static DatabaseManager dbm = new DatabaseManager("mydb");
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id; // process Request URL
         String page = "/WEB-INF/docs/mainView.jsp"; // what page to forward to ...
         String include; // page to include into main.jsp
+        //DatabaseManager dbm = new DatabaseManager("mydb");
 
         // find last part of requested resource
         id = request.getRequestURI().substring(
@@ -50,7 +54,8 @@ public class Front extends HttpServlet {
                 include = "error.jsp";
         }
         
-        request.setAttribute("doco", include);
+        request.setAttribute("includedView", include);
+        request.setAttribute("catalog", dbm.getConnectionName());
         request.getRequestDispatcher(page).forward(request, response);
     }
 
