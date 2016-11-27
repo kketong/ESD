@@ -12,11 +12,11 @@ public class DatabaseManager {
     private String connectionName;
 
     public DatabaseManager(String dbName) {
+        
         try {
-            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName, "root", "");
             connectionName = con.getCatalog();
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -27,6 +27,14 @@ public class DatabaseManager {
     }
 
     public User getUser(String username) {
+        try {
+            String query = "SELECT * FROM account";
+
+            statement = con.createStatement();
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException ex) {
+
+        }
         User tempUser = new User(username, username, username, username, username, username, username, 0, 0, 0);
         return tempUser;
     }
