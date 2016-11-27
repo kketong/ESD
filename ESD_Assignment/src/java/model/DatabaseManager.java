@@ -12,9 +12,13 @@ public class DatabaseManager {
     private String connectionName;
 
     public DatabaseManager(String dbName) {
-        
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName, "root", "");
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "");
             connectionName = con.getCatalog();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -27,15 +31,28 @@ public class DatabaseManager {
     }
 
     public User getUser(String username) {
+        User tempUser = new User();
+        String tempString = "";
+
         try {
-            String query = "SELECT * FROM account";
-
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "");
+            connectionName = con.getCatalog();
             statement = con.createStatement();
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException ex) {
+            resultSet = statement.executeQuery("SELECT * FROM account");
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
 
+            resultSet.first();
+            for (int i = 1; i <= numberOfColumns; i++) {
+                tempUser.setColumn(i, resultSet.getObject(i));
+            }
+
+            resultSet.close();
+            statement.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        User tempUser = new User(username, username, username, username, username, username, username, 0, 0, 0);
         return tempUser;
     }
 

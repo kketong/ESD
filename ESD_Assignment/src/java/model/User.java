@@ -1,5 +1,8 @@
 package model;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class User {
 
     private String username;
@@ -13,17 +16,17 @@ public class User {
     private float accountBalance;
     private int claimCount; //This shouldn't be allowed to be over 2
 
-    public User(String[] strings) {
-        username = strings[0];
-        password = strings[1];
-        firstName = strings[2];
-        lastName = strings[3];
-        dateOfBirth = strings[4];
-        dateOfCreation = strings[5];
-        membershipStatus = strings[6];
-        claimBalance = Float.parseFloat(strings[7]);
-        accountBalance = Float.parseFloat(strings[8]);
-        claimCount = Integer.parseInt(strings[9]);
+    public User() {
+        username = "";
+        password = "";
+        firstName = "";
+        lastName = "";
+        dateOfBirth = "";
+        dateOfCreation = "0000-00-00";
+        membershipStatus = "";
+        claimBalance = 0;
+        accountBalance = 0;
+        claimCount = 0;
     }
 
     public User(String username, String password, String firstName, String lastName, String dateOfBirth, String dateOfCreation, String membershipStatus, float claimBalance, float accountBalance, int claimCount) {
@@ -37,6 +40,41 @@ public class User {
         this.claimBalance = claimBalance;
         this.accountBalance = accountBalance;
         this.claimCount = claimCount;
+    }
+
+    public void setColumn(int index, Object value) {
+        switch (index) {
+            case 1:
+                username = value.toString();
+                break;
+            case 2:
+                password = value.toString();
+                break;
+            case 3:
+                firstName = value.toString();
+                break;
+            case 4:
+                lastName = value.toString();
+                break;
+            case 5:
+                dateOfBirth = value.toString();
+                break;
+            case 6:
+                dateOfCreation = value.toString();
+                break;
+            case 7:
+                membershipStatus = value.toString();
+                break;
+            case 8:
+                claimBalance = Float.parseFloat(value.toString());
+                break;
+            case 9:
+                accountBalance = Float.parseFloat(value.toString());
+                break;
+            case 10:
+                claimCount = Integer.parseInt(value.toString());
+                break;
+        }
     }
 
     @Override
