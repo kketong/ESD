@@ -1,13 +1,16 @@
 <h1>HEADER</h1>
-<form action="<%=request.getContextPath()%>/docs/homePage">
-    <input type=submit value='Home Page'> <br/>
+<p><form action="<%=request.getContextPath()%>/docs/homePage">
+    <input type=submit value='Home Page' class="button">
 </form>
 <form action="<%=request.getContextPath()%>/docs/loginPage">
-    <input type=submit value='Login Page'> <br/>
+    <input type=submit value='Login Page' class="button">
 </form>
 <form action="<%=request.getContextPath()%>/docs/memberPage">
-    <input type=submit value='Member Page'> <br/>
+    <input type=submit value='Member Page' class="button">
 </form>
 <form action="<%=request.getContextPath()%>/docs/adminPage">
-    <input type=submit value='Admin Page'> <br/>
-</form>
+    <input type=submit value='Admin Page' class="button">
+</form></p>
+
+<%=request.getAttribute("catalog")%> <br>
+<%=controller.Front.dbm.getUser("gsmith").toString()%>

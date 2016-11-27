@@ -8,13 +8,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="/docs/web.css" rel="stylesheet" type="text/css"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Main JSP</title>
     </head>
     <body>
         <jsp:include page="header.jsp" flush="true" /> 
-        
-        <% String included = (String) request.getAttribute("doco");%>
+
+        <%String included = (String) request.getAttribute("includedView");%>
         <br/>
         <jsp:include page="<%=included%>" flush="true" /> 
 
