@@ -27,7 +27,6 @@ public class DatabaseManager {
     }
 
     public String registerNewMember(String name, String address, String dob) {
-        //try to add to database, if failed return false, if success return true
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
             statement = con.createStatement();
@@ -35,8 +34,17 @@ public class DatabaseManager {
             String[] nameSplit = name.split(" ");
             String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
             String dor = Date.valueOf(LocalDate.now()).toString();
-            String[] str = {id, name, address, dob, dor, "APPLIED", "0"};
-            insert("member", str);
+            
+            String[] passwordSplit = dob.split("-");
+            String password = passwordSplit[2] + passwordSplit[1] + passwordSplit[0].substring(2, 4);
+            
+            //Insert into members table
+            String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
+            insert("members", str);
+            //Insert into users table
+            
+            str = new String[]{id, password, "APPLIED"};
+            insert("users", str);
             
             return id;
         } catch (SQLException ex) {
