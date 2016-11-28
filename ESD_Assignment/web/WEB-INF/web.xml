@@ -4,6 +4,10 @@
         <servlet-name>Front</servlet-name>
         <servlet-class>controller.Front</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>controller.AdminController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Front</servlet-name>
         <url-pattern>/Front</url-pattern>
@@ -11,6 +15,10 @@
     <servlet-mapping>
         <servlet-name>Front</servlet-name>
         <url-pattern>/docs/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/AdminController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
