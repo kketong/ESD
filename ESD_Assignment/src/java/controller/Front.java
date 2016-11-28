@@ -19,7 +19,7 @@ import model.DatabaseManager;
  */
 public class Front extends HttpServlet {
     
-    public static DatabaseManager dbm = new DatabaseManager("mydb");
+    public static DatabaseManager dbm = new DatabaseManager("xyz_assoc");
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

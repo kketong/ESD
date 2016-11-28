@@ -22,11 +22,11 @@ CREATE TABLE IF NOT EXISTS `account` (                                          
 INSERT INTO `account`   (`username`, `password` ,`firstName`, `lastName`, `dateOfBirth`,
                         `dateOfCreation`, `membershipStatus`,`claimBalance`,`accountBalance`,`claimCount`) 
 VALUES                  ('gsmith', '250394','George','Smith','250395',
-                        '', 'ACTIVE', 500, 0, 1);       -- Inserts into "username" & "password" columns of "users" table the specified values
+                        '2016-01-01', 'ACTIVE', 500, 0, 1);       -- Inserts into "username" & "password" columns of "users" table the specified values
 INSERT INTO `account`   (`username`, `password` ,`firstName`, `lastName`, `dateOfBirth`,
                         `dateOfCreation`, `membershipStatus`,`claimBalance`,`accountBalance`,`claimCount`) 
 VALUES                  ('jmoore', '260795','Jack', 'Moore','260795',
-                        '', 'SUSPENDED', 0, 10, 2);
+                        '2016-01-01', 'SUSPENDED', 0, 10, 2);
 
 -- EXAMPLE:
 -- INSERT INTO 
@@ -36,7 +36,7 @@ VALUES                  ('jmoore', '260795','Jack', 'Moore','260795',
 INSERT INTO `account`   (`username`, `password` ,`firstName`, `lastName`, `dateOfBirth`,
                         `dateOfCreation`, `membershipStatus`,`claimBalance`,`accountBalance`,`claimCount`) 
 VALUES                  ('admin1', '201068', 'A', 'Dmin1', '201068',
-                        '', 'ADMIN',0,0,0);  
+                        '2016-01-01', 'ADMIN',0,0,0);  
 
 
 

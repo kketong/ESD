@@ -13,4 +13,4 @@
 </form></p>
 
 <%=request.getAttribute("catalog")%> <br>
-<%=controller.Front.dbm.getUser("gsmith").toString()%>
+<%=controller.Front.dbm.getUser("me-aydin").toString()%>
