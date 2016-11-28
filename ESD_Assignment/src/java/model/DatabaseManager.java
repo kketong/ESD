@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,55 +26,87 @@ public class DatabaseManager {
         }
     }
 
+    public String registerNewMember(String name, String address, String dob) {
+        //try to add to database, if failed return false, if success return true
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
+            statement = con.createStatement();
+
+            String[] nameSplit = name.split(" ");
+            String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
+            String dor = Date.valueOf(LocalDate.now()).toString();
+            String[] str = {id, name, address, dob, dor, "APPLIED", "0"};
+            insert("member", str);
+            
+            return id;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
+
     public Boolean createNewUser() {
+
         //Successfully created a new user
         return true;
     }
 
-    public User getUser(String username) {
-        User tempUser = new User();
-        String tempString = "";
-
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
-            connectionName = con.getCatalog();
-            statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM users");
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int numberOfColumns = metaData.getColumnCount();
-
-            Boolean isFound = false;
-            resultSet.first();
-            while (!isFound) {
-                tempUser.setUserID(resultSet.getObject(1) + "");
-                tempUser.setUserPassword(resultSet.getObject(2) + "");
-                tempUser.setUserStatus(resultSet.getObject(3) + "");
-                if (tempUser.getUserID().equals(username)) {
-                    isFound = true;
-                }
-                if (resultSet.isLast()) {
-                    break;
-                } else {
-                    resultSet.next();
-                }
+    public void insert(String tableName, String[] str) {
+        PreparedStatement ps = null;
+        String valuesString = "";
+        
+        for (int i = 0; i < str.length; i++) {
+            valuesString += "?";
+            if (i != str.length-1) {
+                valuesString += ",";
             }
+        }
+        
+        try {
+            ps = con.prepareStatement("INSERT INTO " + tableName + " VALUES (" + valuesString + ")", PreparedStatement.RETURN_GENERATED_KEYS);
+            for (int i = 0; i < str.length; i++) {
+                ps.setString(i + 1, str[i]);
+            }
+            ps.executeUpdate();
 
-            resultSet.close();
-            statement.close();
-            con.close();
+            ps.close();
+            System.out.println("1 row added.");
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return tempUser;
     }
 
-    public Member getClaim(String username) {
-        return null;
-    }
-
-    public Member getPayment(String username) {
-        return null;
-    }
+//    public User getUser(String username) {
+//        User tempUser = new User();
+//        String tempString = "";
+//
+//        try {
+//            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
+//            statement = con.createStatement();
+//            resultSet = statement.executeQuery("SELECT * FROM users");
+//            ResultSetMetaData metaData = resultSet.getMetaData();
+//            int numberOfColumns = metaData.getColumnCount();
+//
+//            Boolean isFound = false;
+//            resultSet.first();
+//            while (!isFound) {
+//                tempUser.setUserID(resultSet.getObject(1) + "");
+//                tempUser.setUserPassword(resultSet.getObject(2) + "");
+//                tempUser.setUserStatus(resultSet.getObject(3) + "");
+//                if (tempUser.getUserID().equals(username)) {
+//                    isFound = true;
+//                }
+//                if (resultSet.isLast()) {
+//                    break;
+//                } else {
+//                    resultSet.next();
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return tempUser;
+//    }
 
     public String getConnectionName() {
         return connectionName;
