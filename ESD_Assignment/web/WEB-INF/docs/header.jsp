@@ -13,4 +13,4 @@
 </form></p>
 
 <%=request.getAttribute("catalog")%> <br>
-<%=controller.Front.dbm.getUser("me-aydin").toString()%>
+<%=controller.Front.dbm.registerNewMember("george smith", "18 Douglas Road, Bristol, BS7 0JD", "1994-03-25")%>
