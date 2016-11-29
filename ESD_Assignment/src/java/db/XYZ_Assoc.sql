@@ -79,9 +79,6 @@ TRUNCATE TABLE `Members`;
 -- Dumping data for table `Members`
 --
 
-INSERT INTO `Members` (`id`, `name`, `address`, `dob`, `dor`, `status`, `balance`) VALUES
-('me-aydin', 'Mehmet Aydin', '148 Station Rd, London, N3 2SG', '1968-10-20', '2015-01-26', 'APPLIED', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -137,9 +134,6 @@ TRUNCATE TABLE `users`;
 --
 -- Dumping data for table `users`
 --
-
-INSERT INTO `users` (`id`, `password`, `status`) VALUES
-('me-aydin', '201068', 'APPLIED');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -32,6 +32,8 @@ public class DatabaseManager {
     }
 
     public String registerNewMember(String name, String address, String dob) {
+        //dob is in format 00-00-0000
+        
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
             statement = con.createStatement();
@@ -39,9 +41,12 @@ public class DatabaseManager {
             String[] nameSplit = name.split(" ");
             String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
             String dor = Date.valueOf(LocalDate.now()).toString();
-
+            
             String[] passwordSplit = dob.split("-");
-            String password = passwordSplit[2] + passwordSplit[1] + passwordSplit[0].substring(2, 4);
+            //reverse dob
+            dob = passwordSplit[2] + "-" + passwordSplit[1] + "-" + passwordSplit[0];
+            //convert 00-00-0000 to 000000
+            String password = passwordSplit[0] + passwordSplit[1] + passwordSplit[2].substring(2, 4);
 
             //Insert into members table
             String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
