@@ -317,7 +317,7 @@ public class DatabaseManager {
             do {
                 String claimString = "";
                 for (int j = 1; j <= numberOfColumns; j++) {
-                    claimString += (String) resultSet.getObject(j);
+                    claimString += resultSet.getObject(j);
                     if (j != numberOfColumns) {
                         claimString += "<";
                     }
@@ -328,7 +328,7 @@ public class DatabaseManager {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         return claims;
     }
 

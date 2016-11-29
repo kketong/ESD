@@ -41,7 +41,7 @@ public class Front extends HttpServlet {
                 include = "homePage.jsp";
                 break;
             case "/docs/loginPage":
-                include = "loginPage.jsp";
+                include = "logInPage.jsp";
                 break;
             case "/docs/loginPage/registerNewUser":
                 getServletContext().setAttribute("currentUser", dbm.registerNewMember(request.getParameter("rName"), request.getParameter("rAddress"), request.getParameter("rDOB")));
