@@ -29,6 +29,7 @@ public class AdminController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String result = "";
+        String[] results = new String[1];
 
         // Receive request from adminPage
         String c = request.getParameter("action");
@@ -37,8 +38,8 @@ public class AdminController extends HttpServlet {
 
         // Send to model & invoke one of three methods
         switch (c) {
-            case "list":
-                result = am.getApprovals();
+            case "Check Approvals":
+                results = am.getApprovals();
                 break;
             case "approveMember":
                 result = am.approvalResult();
@@ -49,7 +50,7 @@ public class AdminController extends HttpServlet {
         }
 
         // Send back to view (adminPage.jsp)
-        request.setAttribute("output", result);
+        request.setAttribute("output", results);
         RequestDispatcher view = request.getRequestDispatcher("/docs/adminPage");
         view.forward(request, response);
     }

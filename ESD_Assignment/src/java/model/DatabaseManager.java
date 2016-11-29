@@ -54,6 +54,34 @@ public class DatabaseManager {
         }
     }
 
+    public String verifyCredentials(String username, String password) {
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM users");
+            resultSet.first();
+
+            while (true) {
+                if (username.equals((String) resultSet.getObject(1))) {
+                    if (password.equals((String) resultSet.getObject(2))) {
+                        return (String) resultSet.getObject(3);
+                    } else {
+                        return "Invalid Password";
+                    }
+                }
+
+                if (resultSet.isLast()) {
+                    return "User not found";
+                } else {
+                    resultSet.next();
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
     public void insert(String tableName, String[] str) {
         PreparedStatement ps = null;
         String valuesString = "";
