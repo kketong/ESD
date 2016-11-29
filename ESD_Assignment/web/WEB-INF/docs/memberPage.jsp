@@ -1,7 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="controller.Front"%>
 <%@page import="java.util.List"%>
-<%@page import="model.MemberModel"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html> 
@@ -9,7 +8,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Member Page</title>
     </head>
-    <h1> Claims </h1>
+    <h1>Member Page</h1>
+    <% String memberID = (String)getServletContext().getAttribute("currentUser"); %>
+    Hello, <%=memberID%><br>
+    Your password is: <%=controller.Front.dbm.retrieveMemberPassword(memberID)%><br>
+    Your account balance is: <%=controller.Front.dbm.retrieveMemberBalance(memberID)%>
+    <h2> Claims </h2>
     <table>
         <tr>
             <th> Date Submitted </th>
@@ -31,7 +35,7 @@
             }
         %>
     </table>
-    <h1> Payments </h1>
+    <h2> Payments </h2>
     <table>
         <tr>
             <th>Type of Payment</th>
