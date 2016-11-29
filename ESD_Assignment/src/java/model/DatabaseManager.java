@@ -139,28 +139,21 @@ public class DatabaseManager {
         ArrayList<String> entryStrings = new ArrayList<>();
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM members");
+            resultSet = statement.executeQuery("SELECT * FROM members WHERE status='APPLIED'");
             ResultSetMetaData metaData = resultSet.getMetaData();
             int numberOfColumns = metaData.getColumnCount();
-            resultSet.last();
-            int numberOfRows = resultSet.getRow();
             resultSet.first();
 
-            for (int i = 0; i < numberOfRows; i++) {
-                //If status of member is applied
-                if (resultSet.getObject(6).equals("APPLIED")) {
-                    String tempString = "";
-                    for (int j = 1; j <= numberOfColumns; j++) {
-                        tempString += resultSet.getObject(j);
-                        if (j != numberOfColumns) {
-                            tempString += "<";
-                        }
+            do {
+                String tempString = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    tempString += resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        tempString += "<";
                     }
-                    entryStrings.add(tempString);
                 }
-
-                resultSet.next();
-            }
+                entryStrings.add(tempString);
+            } while (resultSet.next());
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -235,13 +228,11 @@ public class DatabaseManager {
             return false;
         }
     }
-    
+
     public Boolean memberMadeLessThanTwoClaims(String username) {
         String[] checkDateStrings = Date.valueOf(LocalDate.now()).toString().split("-");
         int currentYear = Integer.parseInt(checkDateStrings[0]);
-        
-        
-        
+
         return true;
     }
 
@@ -255,11 +246,10 @@ public class DatabaseManager {
             //Check if the account was registered more than 6 months ago
             if (memberActiveForSixMonths(memberID)) {
                 //Check if they have made less than 2 claims within the current year
-                
+
             }
         }
 
-        
         return true;
     }
 
