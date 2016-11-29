@@ -8,6 +8,3 @@
     / <a href="<%=request.getContextPath()%>/docs/memberPage">member page</a>
     / <a href="<%=request.getContextPath()%>/docs/adminPage">admin page</a> /
 </div>
-
-<!--<%=request.getAttribute("catalog")%> <br>-->
-<!--<%=controller.Front.dbm.getUser("me-aydin").toString()%>-->

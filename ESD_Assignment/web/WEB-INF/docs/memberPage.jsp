@@ -2,4 +2,4 @@
 
 <%String currentUserID = getServletContext().getAttribute("currentUser").toString();%>
 Your username is: <%=currentUserID%><br>
-Your password is: %>
+Your password is:

@@ -27,7 +27,6 @@ public class DatabaseManager {
     }
 
     public String registerNewMember(String name, String address, String dob) {
-        //try to add to database, if failed return false, if success return true
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
             statement = con.createStatement();
@@ -35,20 +34,23 @@ public class DatabaseManager {
             String[] nameSplit = name.split(" ");
             String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
             String dor = Date.valueOf(LocalDate.now()).toString();
-            String[] str = {id, name, address, dob, dor, "APPLIED", "0"};
-            insert("member", str);
+            
+            String[] passwordSplit = dob.split("-");
+            String password = passwordSplit[2] + passwordSplit[1] + passwordSplit[0].substring(2, 4);
+            
+            //Insert into members table
+            String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
+            insert("members", str);
+            //Insert into users table
+            
+            str = new String[]{id, password, "APPLIED"};
+            insert("users", str);
             
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
-    }
-
-    public Boolean createNewUser() {
-
-        //Successfully created a new user
-        return true;
     }
 
     public void insert(String tableName, String[] str) {
@@ -75,6 +77,39 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public String[] retrieveUsers() {
+        String[] userStrings = new String[1];
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM users");
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            resultSet.last();
+            int numberOfRows = resultSet.getRow();
+            resultSet.first();
+            
+            userStrings = new String[numberOfRows];
+            for (int i = 0; i < userStrings.length; i++) {
+                userStrings[i] = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    userStrings[i] += resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        userStrings[i] += ".";
+                    }
+                }
+                resultSet.next();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        
+        
+        return userStrings;
+    }
+    
+    //Status user, set member status and user status, 
 
 //    public User getUser(String username) {
 //        User tempUser = new User();
