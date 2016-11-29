@@ -337,13 +337,13 @@ public class DatabaseManager {
 
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM claims WHERE mem_id='" + memberId + "'");
+            resultSet = statement.executeQuery("SELECT * FROM payments WHERE mem_id='" + memberId + "'");
             resultSet.first();
             int numberOfColumns = resultSet.getMetaData().getColumnCount();
             do {
                 String paymentString = "";
                 for (int j = 1; j <= numberOfColumns; j++) {
-                    paymentString += (String) resultSet.getObject(j);
+                    paymentString += resultSet.getObject(j);
                     if (j != numberOfColumns) {
                         paymentString += "<";
                     }
