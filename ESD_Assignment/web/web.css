@@ -5,6 +5,17 @@ body {
     color: #00008B;
 }
 
+h1 {
+    text-shadow: 2px 2px 5px;
+}
+
+navigation {
+    float: left;
+    font-family: QuicksandBook, Helvetica, Arial, sans-serif;
+    padding: 45px 0px 0px 0px;
+    text-align: right;
+}
+
 button {
                 background-color: #4CAF50; /* Green */
                 border: none;
