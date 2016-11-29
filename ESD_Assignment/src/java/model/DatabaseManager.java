@@ -95,7 +95,7 @@ public class DatabaseManager {
                 for (int j = 1; j <= numberOfColumns; j++) {
                     entryStrings[i] += resultSet.getObject(j);
                     if (j != numberOfColumns) {
-                        entryStrings[i] += ".";
+                        entryStrings[i] += "?";
                     }
                 }
                 resultSet.next();
