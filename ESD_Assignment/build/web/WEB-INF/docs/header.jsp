@@ -5,8 +5,8 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/web.css" media="screen" />
 
 <div class="navigation">
-    <a href="<%=request.getContextPath()%>/docs/homePage">home</a>
-    / <a href="<%=request.getContextPath()%>/docs/loginPage">login</a>
-    / <a href="<%=request.getContextPath()%>/docs/memberPage">member page</a>
-    / <a href="<%=request.getContextPath()%>/docs/adminPage">admin page</a> /
+    <a href="<%=request.getContextPath()%>/docs/homePage">Home</a>
+    / <a href="<%=request.getContextPath()%>/docs/loginPage">Login</a>
+    / <a href="<%=request.getContextPath()%>/docs/memberPage">Member Page</a>
+    / <a href="<%=request.getContextPath()%>/docs/adminPage">Admin Page</a> /
 </div>

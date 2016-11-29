@@ -130,7 +130,7 @@ public class DatabaseManager {
         return entryStrings;
     }
 
-    public String[] retrieveAppliedMembers() {
+    public List<String> retrieveAppliedMembers() {
         ArrayList<String> entryStrings = new ArrayList<>();
         try {
             statement = con.createStatement();
@@ -153,13 +153,7 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //Convert arraylist to string array
-        String[] returnArray = new String[entryStrings.size()];
-        for (int i = 0; i < entryStrings.size(); i++) {
-            returnArray[i] = entryStrings.get(i);
-        }
-
-        return returnArray;
+        return entryStrings;
     }
 
     public String retrieveMemberStatus(String username) {
@@ -201,6 +195,17 @@ public class DatabaseManager {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+    }
+    
+    public void setClaimStatus(String mem_id, String status) {
+        PreparedStatement ps = null;
+                try {
+            ps = con.prepareStatement("UPDATE claims SET status='" + status + "' WHERE id='" + mem_id + "'");
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

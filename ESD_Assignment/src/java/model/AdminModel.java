@@ -11,16 +11,16 @@ import java.util.List;
 public class AdminModel {
 
     // List approvals
-    public String[] getApprovals() {
+    public List<String> getApprovals() {
         return Front.dbm.retrieveAppliedMembers();
     }
 
     // Approve members
     public String approvalResult() {
-        String[] outstandingApprovals = Front.dbm.retrieveAppliedMembers();
+        List<String> outstandingApprovals = Front.dbm.retrieveAppliedMembers();
 
-        for (int i = 0; i < outstandingApprovals.length; i++) {
-            String parts[] = outstandingApprovals[i].split("<");
+        for (String approval : outstandingApprovals) {
+            String parts[] = approval.split("<");
             Front.dbm.setMemberandUserStatus(parts[0], "APPROVED");
         }
         return "Success";
@@ -31,11 +31,11 @@ public class AdminModel {
     }
 
     // Approve claims
-    public void approveClaims(String id) {
-        
+    public void approveClaim(String id) {
+        Front.dbm.setClaimStatus(id, "APPROVED");
     }
     
     public void rejectClaim(String id) {
-        
+        Front.dbm.setClaimStatus(id, "REJECTED");
     }
 }
