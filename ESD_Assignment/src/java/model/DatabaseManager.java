@@ -3,6 +3,9 @@ package model;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +63,7 @@ public class DatabaseManager {
             resultSet = statement.executeQuery("SELECT * FROM users");
             resultSet.first();
 
-            while (true) {
+            while (!resultSet.isLast()) {
                 if (username.equals((String) resultSet.getObject(1))) {
                     if (password.equals((String) resultSet.getObject(2))) {
                         return (String) resultSet.getObject(3);
@@ -68,13 +71,11 @@ public class DatabaseManager {
                         return "Invalid Password";
                     }
                 }
-
-                if (resultSet.isLast()) {
-                    return "User not found";
-                } else {
-                    resultSet.next();
-                }
+                
+                resultSet.next();
             }
+            
+            return "User not found";
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -184,7 +185,7 @@ public class DatabaseManager {
             ps = con.prepareStatement("UPDATE users SET status='" + status + "' WHERE id='" + username + "'");
             ps.executeUpdate();
             ps.close();
-            
+
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -226,5 +227,49 @@ public class DatabaseManager {
 //    }
     public String getConnectionName() {
         return connectionName;
+    }
+
+    public List<Integer> getClaimIds(String memberId) {
+        List<Integer> claimIds = new ArrayList();
+
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM claims");
+            resultSet.first();
+
+            while (!resultSet.isLast()) {
+                if (memberId.equals((String) resultSet.getObject(2))) {
+                    claimIds.add((int) resultSet.getObject(1));
+                }
+
+                resultSet.next();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return claimIds;
+    }
+
+    public List<Integer> getPaymentIds(String memberId) {
+        List<Integer> paymentIds = new ArrayList();
+
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM payments");
+            resultSet.first();
+
+            while (!resultSet.isLast()) {
+                if (memberId.equals((String) resultSet.getObject(2))) {
+                    paymentIds.add((int) resultSet.getObject(1));
+                }
+
+                resultSet.next();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return paymentIds;
     }
 }
