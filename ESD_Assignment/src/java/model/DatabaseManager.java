@@ -53,12 +53,6 @@ public class DatabaseManager {
         }
     }
 
-    public Boolean createNewUser() {
-
-        //Successfully created a new user
-        return true;
-    }
-
     public void insert(String tableName, String[] str) {
         PreparedStatement ps = null;
         String valuesString = "";
@@ -83,6 +77,39 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public String[] retrieveUsers() {
+        String[] userStrings = new String[1];
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM users");
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            resultSet.last();
+            int numberOfRows = resultSet.getRow();
+            resultSet.first();
+            
+            userStrings = new String[numberOfRows];
+            for (int i = 0; i < userStrings.length; i++) {
+                userStrings[i] = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    userStrings[i] += resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        userStrings[i] += ".";
+                    }
+                }
+                resultSet.next();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        
+        
+        return userStrings;
+    }
+    
+    //Status user, set member status and user status, 
 
 //    public User getUser(String username) {
 //        User tempUser = new User();
