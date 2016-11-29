@@ -3,7 +3,7 @@
     <form action="<%=request.getContextPath()%>/docs/tryLogin">
         Username <input type="text" name="username"><br>
         Password <input type="password" name="password"><br>
-        <input type="submit" value="Log In">
+        <input type="submit" value="Log in">
     </form>
     <%
         try {
@@ -20,7 +20,7 @@
         Address:<br><input type=text name='rAddress'><br>
         Date of Birth:<br><input type=text name='rDOB'><br>
         Username and password will be generated for you
-        <br><input type=submit value='Login Page Register'>
+        <br><input type=submit value='Register'>
     </form>
 
 </html>
