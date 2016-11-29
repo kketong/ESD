@@ -2,6 +2,7 @@ package model;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,18 +35,18 @@ public class DatabaseManager {
             String[] nameSplit = name.split(" ");
             String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
             String dor = Date.valueOf(LocalDate.now()).toString();
-            
+
             String[] passwordSplit = dob.split("-");
             String password = passwordSplit[2] + passwordSplit[1] + passwordSplit[0].substring(2, 4);
-            
+
             //Insert into members table
             String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
             insert("members", str);
             //Insert into users table
-            
+
             str = new String[]{id, password, "APPLIED"};
             insert("users", str);
-            
+
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -56,14 +57,14 @@ public class DatabaseManager {
     public void insert(String tableName, String[] str) {
         PreparedStatement ps = null;
         String valuesString = "";
-        
+
         for (int i = 0; i < str.length; i++) {
             valuesString += "?";
-            if (i != str.length-1) {
+            if (i != str.length - 1) {
                 valuesString += ",";
             }
         }
-        
+
         try {
             ps = con.prepareStatement("INSERT INTO " + tableName + " VALUES (" + valuesString + ")", PreparedStatement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < str.length; i++) {
@@ -77,25 +78,25 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public String[] retrieveUsers() {
-        String[] userStrings = new String[1];
+
+    public String[] retrieveAllEntries(String tableName) {
+        String[] entryStrings = new String[1];
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM users");
+            resultSet = statement.executeQuery("SELECT * FROM " + tableName);
             ResultSetMetaData metaData = resultSet.getMetaData();
             int numberOfColumns = metaData.getColumnCount();
             resultSet.last();
             int numberOfRows = resultSet.getRow();
             resultSet.first();
-            
-            userStrings = new String[numberOfRows];
-            for (int i = 0; i < userStrings.length; i++) {
-                userStrings[i] = "";
+
+            entryStrings = new String[numberOfRows];
+            for (int i = 0; i < entryStrings.length; i++) {
+                entryStrings[i] = "";
                 for (int j = 1; j <= numberOfColumns; j++) {
-                    userStrings[i] += resultSet.getObject(j);
+                    entryStrings[i] += resultSet.getObject(j);
                     if (j != numberOfColumns) {
-                        userStrings[i] += ".";
+                        entryStrings[i] += ".";
                     }
                 }
                 resultSet.next();
@@ -103,14 +104,50 @@ public class DatabaseManager {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-        
-        
-        return userStrings;
-    }
-    
-    //Status user, set member status and user status, 
 
+        return entryStrings;
+    }
+
+    public String[] retrieveAppliedMembers() {
+        ArrayList<String> entryStrings = new ArrayList<>();
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM members");
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            resultSet.last();
+            int numberOfRows = resultSet.getRow();
+            resultSet.first();
+
+            for (int i = 0; i < numberOfRows; i++) {
+                //If status of member is applied
+                if (resultSet.getObject(6).equals("APPLIED")) {
+                    String tempString = "";
+                    for (int j = 1; j <= numberOfColumns; j++) {
+                        tempString += resultSet.getObject(j);
+                        if (j != numberOfColumns) {
+                            tempString += ".";
+                        }
+                    }
+                    entryStrings.add(tempString);
+                }
+
+                resultSet.next();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //Convert arraylist to string array
+        String[] returnArray = new String[entryStrings.size()];
+        for (int i = 0; i < entryStrings.size(); i++) {
+            returnArray[i] = entryStrings.get(i);
+        }
+
+        return returnArray;
+    }
+
+    //Status user, set member status and user status, 
 //    public User getUser(String username) {
 //        User tempUser = new User();
 //        String tempString = "";
@@ -142,7 +179,6 @@ public class DatabaseManager {
 //        }
 //        return tempUser;
 //    }
-
     public String getConnectionName() {
         return connectionName;
     }
