@@ -32,7 +32,7 @@ public class Front extends HttpServlet {
                 request.getContextPath().length());
 
         getServletContext().log("Front received a request for " + id);
-
+        OUTER:
         switch (id) {
             case "/Front":
                 include = "homePage.jsp";
@@ -53,6 +53,25 @@ public class Front extends HttpServlet {
             case "/docs/adminPage":
                 include = "adminPage.jsp";
                 break;
+            case "/docs/tryLogin":                
+                String status = dbm.verifyCredentials(request.getParameter("username"), request.getParameter("password"));
+                switch (status) {
+                    case "Invalid Password":
+                    case "User not found":
+                        include = "loginPage.jsp";
+                        request.setAttribute("status", status);
+                        break OUTER;
+                    case "ADMIN":
+                        include = "adminPage.jsp";
+                        request.setAttribute("username", request.getParameter("username"));
+                        break OUTER;
+                    case "APPLIED":
+                    case "APPROVED":
+                    case "SUSPENDED":
+                        include = "memberPage.jsp";
+                        request.setAttribute("username", request.getParameter("username"));
+                        break OUTER;
+                }
             default:
                 include = "error.jsp";
         }
