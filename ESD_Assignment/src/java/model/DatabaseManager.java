@@ -2,6 +2,7 @@ package model;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -67,6 +68,8 @@ public class DatabaseManager {
             } else {
                 return (String) resultSet.getObject(3);
             }
+
+
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -223,26 +226,80 @@ public class DatabaseManager {
 
     public Boolean memberMadeLessThanTwoClaims(String username) {
         String[] checkDateStrings = Date.valueOf(LocalDate.now()).toString().split("-");
-        int currentYear = Integer.parseInt(checkDateStrings[0]);
+        String currentYear = checkDateStrings[0];
+        int claimCount = 0;
 
-        return true;
+        //Get all claims made my this user, if there are less than 2 return true, else return false
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT date FROM claims WHERE mem_id='" + username + "'");
+
+            if (resultSet.first()) {
+                do {
+                    if (resultSet.getObject(1).toString().split("-")[0].equals(currentYear)) {
+                        claimCount++;
+                    }
+                } while (resultSet.next());
+            }
+
+            if (claimCount < 2) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
-    public Boolean createNewClaim(String memberID, String claimDate, String claimDescription, float claimAmount) {
-        //Auto-increment claimID
-        //Set status to APPLIED
+    public Boolean createNewClaim(String memberID, String claimDescription, double claimAmount) {
+        PreparedStatement ps = null;
+        String claimDate = Date.valueOf(LocalDate.now()) + "";
 
         //Can the user make a claim?
         //Check if the user status is approved i.e. are they a member?
         if (retrieveMemberStatus(memberID).equals("APPROVED")) {
             //Check if the account was registered more than 6 months ago
             if (memberActiveForSixMonths(memberID)) {
+                System.out.println("Member Active for 6 months: create new claim");
                 //Check if they have made less than 2 claims within the current year
+                if (memberMadeLessThanTwoClaims(memberID)) {
+                    try {
+                        ps = con.prepareStatement("INSERT INTO claims VALUES (NULL,'" + memberID
+                                + "','" + claimDate + "','" + claimDescription + "','SUBMITTED'," + claimAmount + ")");
+                        ps.executeUpdate();
+                        ps.close();
+                        System.out.println("1 row added to claims.");
+                        return true;
+                    } catch (SQLException ex) {
+                        System.out.println("Couldn't Insert into claims");
+                        Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+                        return false;
+                    }
 
+                }
             }
         }
+        return false;
+    }
 
-        return true;
+    public Boolean createNewPayment(String memberID, String paymentType, double paymentAmount) {
+        PreparedStatement ps = null;
+        String paymentDateTime = (LocalDate.now().toString() + " " + LocalTime.now().toString().substring(0, 8));
+        
+        try {
+            ps = con.prepareStatement("INSERT INTO payments VALUES (NULL,'" + memberID
+                    + "','" + paymentType + "','" + paymentAmount + "','"+ paymentDateTime +"')");
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("1 row added to payments.");
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Couldn't Insert into payments");
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     //Status user, set member status and user status, 
