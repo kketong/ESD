@@ -41,7 +41,7 @@ public class Front extends HttpServlet {
                 include = "homePage.jsp";
                 break;
             case "/docs/loginPage":
-                include = "logInPage.jsp";
+                include = "loginPage.jsp";
                 break;
             case "/docs/loginPage/registerNewUser":
                 getServletContext().setAttribute("currentUser", dbm.registerNewMember(request.getParameter("rName"), request.getParameter("rAddress"), request.getParameter("rDOB")));
@@ -57,8 +57,7 @@ public class Front extends HttpServlet {
             case "/docs/tryLogin":
                 String status = dbm.verifyCredentials(request.getParameter("username"), request.getParameter("password"));
                 switch (status) {
-                    case "Invalid Password":
-                    case "User not found":
+                    case "Invalid Credentials.":
                         include = "loginPage.jsp";
                         getServletContext().setAttribute("status", status);
                         break OUTER;
