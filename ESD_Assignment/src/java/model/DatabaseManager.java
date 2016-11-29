@@ -124,7 +124,7 @@ public class DatabaseManager {
                 for (int j = 1; j <= numberOfColumns; j++) {
                     entryStrings[i] += resultSet.getObject(j);
                     if (j != numberOfColumns) {
-                        entryStrings[i] += "?";
+                        entryStrings[i] += "<";
                     }
                 }
                 resultSet.next();
@@ -140,28 +140,21 @@ public class DatabaseManager {
         ArrayList<String> entryStrings = new ArrayList<>();
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM members");
+            resultSet = statement.executeQuery("SELECT * FROM members WHERE status='APPLIED'");
             ResultSetMetaData metaData = resultSet.getMetaData();
             int numberOfColumns = metaData.getColumnCount();
-            resultSet.last();
-            int numberOfRows = resultSet.getRow();
             resultSet.first();
 
-            for (int i = 0; i < numberOfRows; i++) {
-                //If status of member is applied
-                if (resultSet.getObject(6).equals("APPLIED")) {
-                    String tempString = "";
-                    for (int j = 1; j <= numberOfColumns; j++) {
-                        tempString += resultSet.getObject(j);
-                        if (j != numberOfColumns) {
-                            tempString += ".";
-                        }
+            do {
+                String tempString = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    tempString += resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        tempString += "<";
                     }
-                    entryStrings.add(tempString);
                 }
-
-                resultSet.next();
-            }
+                entryStrings.add(tempString);
+            } while (resultSet.next());
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -173,6 +166,30 @@ public class DatabaseManager {
         }
 
         return returnArray;
+    }
+
+    public String retrieveMemberStatus(String username) {
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT status FROM members WHERE id='" + username + "'");
+            resultSet.first();
+            return resultSet.getObject(1) + "";
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public String retrieveMemberDOR(String username) {
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT dor FROM members WHERE id='" + username + "'");
+            resultSet.first();
+            return resultSet.getObject(1) + "";
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public Boolean setMemberandUserStatus(String username, String status) {
@@ -191,6 +208,50 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+
+    public Boolean memberActiveForSixMonths(String username) {
+        String memberDOR = retrieveMemberDOR(username);
+        String[] dorStrings = Date.valueOf(memberDOR).toString().split("-");
+        String[] checkDateStrings = Date.valueOf(LocalDate.now()).toString().split("-");
+        int yearDiff = Integer.parseInt(checkDateStrings[0]) - Integer.parseInt(dorStrings[0]);
+        int monthDiff = Integer.parseInt(checkDateStrings[1]) - Integer.parseInt(dorStrings[1]) + (yearDiff * 12);
+
+        if (monthDiff > 6) {
+            return true;
+        } else if (monthDiff == 6) {
+            if (Integer.parseInt(checkDateStrings[2]) >= Integer.parseInt(dorStrings[2])) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public Boolean memberMadeLessThanTwoClaims(String username) {
+        String[] checkDateStrings = Date.valueOf(LocalDate.now()).toString().split("-");
+        int currentYear = Integer.parseInt(checkDateStrings[0]);
+
+        return true;
+    }
+
+    public Boolean createNewClaim(String memberID, String claimDate, String claimDescription, float claimAmount) {
+        //Auto-increment claimID
+        //Set status to APPLIED
+
+        //Can the user make a claim?
+        //Check if the user status is approved i.e. are they a member?
+        if (retrieveMemberStatus(memberID).equals("APPROVED")) {
+            //Check if the account was registered more than 6 months ago
+            if (memberActiveForSixMonths(memberID)) {
+                //Check if they have made less than 2 claims within the current year
+
+            }
+        }
+
+        return true;
     }
 
     //Status user, set member status and user status, 
