@@ -45,6 +45,7 @@ public class Front extends HttpServlet {
                 break;
             case "/docs/loginPage/registerNewUser":
                 getServletContext().setAttribute("currentUser", dbm.registerNewMember(request.getParameter("rName"), request.getParameter("rAddress"), request.getParameter("rDOB")));
+                getServletContext().setAttribute("isNewUser", "true");
                 include = "memberPage.jsp";
                 break;
             case "/docs/memberPage":
@@ -53,23 +54,27 @@ public class Front extends HttpServlet {
             case "/docs/adminPage":
                 include = "adminPage.jsp";
                 break;
-            case "/docs/tryLogin":                
+            case "/docs/tryLogin":
                 String status = dbm.verifyCredentials(request.getParameter("username"), request.getParameter("password"));
                 switch (status) {
                     case "Invalid Password":
                     case "User not found":
                         include = "loginPage.jsp";
-                        request.setAttribute("status", status);
+                        getServletContext().setAttribute("status", status);
                         break OUTER;
                     case "ADMIN":
                         include = "adminPage.jsp";
-                        request.setAttribute("username", request.getParameter("username"));
+                        getServletContext().setAttribute("currentUser", request.getParameter("username"));
+                        getServletContext().setAttribute("status", status);
+                        getServletContext().setAttribute("isNewUser", "false");
                         break OUTER;
                     case "APPLIED":
                     case "APPROVED":
                     case "SUSPENDED":
                         include = "memberPage.jsp";
-                        request.setAttribute("username", request.getParameter("username"));
+                        getServletContext().setAttribute("currentUser", request.getParameter("username"));
+                        getServletContext().setAttribute("status", status);
+                        getServletContext().setAttribute("isNewUser", "false");
                         break OUTER;
                 }
             default:

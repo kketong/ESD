@@ -5,10 +5,23 @@
  */
 package model;
 
+import controller.Front;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Edwin
  */
 public class MemberModel {
+    
+    public List getClaims(String memberId) {
+        List<String> claims = Front.dbm.getClaims(memberId);
+        for (String claim : claims) {
+            
+        }
+        return claims;
+    }
+    
     
 }

@@ -61,22 +61,15 @@ public class DatabaseManager {
     public String verifyCredentials(String username, String password) {
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM users");
+            resultSet = statement.executeQuery("SELECT * FROM users WHERE id='" + username + "' AND password='" + password + "'");
             resultSet.first();
-
-            while (!resultSet.isLast()) {
-                if (username.equals((String) resultSet.getObject(1))) {
-                    if (password.equals((String) resultSet.getObject(2))) {
-                        return (String) resultSet.getObject(3);
-                    } else {
-                        return "Invalid Password";
-                    }
-                }
-
-                resultSet.next();
+            if (resultSet.wasNull()) {
+                return "Invalid Credentials.";
+            } else {
+                return (String) resultSet.getObject(3);
             }
 
-            return "User not found";
+
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -345,47 +338,55 @@ public class DatabaseManager {
         return connectionName;
     }
 
-    public List<Integer> getClaimIds(String memberId) {
-        List<Integer> claimIds = new ArrayList();
+    public List<String> getClaims(String memberId) {
+        List<String> claims = new ArrayList();
 
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM claims");
+            resultSet = statement.executeQuery("SELECT * FROM claims WHERE mem_id='" + memberId + "'");
             resultSet.first();
-
-            while (!resultSet.isLast()) {
-                if (memberId.equals((String) resultSet.getObject(2))) {
-                    claimIds.add((int) resultSet.getObject(1));
+            int numberOfColumns = resultSet.getMetaData().getColumnCount();
+            do {
+                String claimString = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    claimString += (String) resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        claimString += "<";
+                    }
                 }
 
-                resultSet.next();
-            }
+                claims.add(claimString);
+            } while (resultSet.next());
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return claimIds;
+        return claims;
     }
 
-    public List<Integer> getPaymentIds(String memberId) {
-        List<Integer> paymentIds = new ArrayList();
+    public List<String> getPayments(String memberId) {
+        List<String> payments = new ArrayList();
 
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM payments");
+            resultSet = statement.executeQuery("SELECT * FROM claims WHERE mem_id='" + memberId + "'");
             resultSet.first();
-
-            while (!resultSet.isLast()) {
-                if (memberId.equals((String) resultSet.getObject(2))) {
-                    paymentIds.add((int) resultSet.getObject(1));
+            int numberOfColumns = resultSet.getMetaData().getColumnCount();
+            do {
+                String paymentString = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    paymentString += (String) resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        paymentString += "<";
+                    }
                 }
 
-                resultSet.next();
-            }
+                payments.add(paymentString);
+            } while (resultSet.next());
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return paymentIds;
+        return payments;
     }
 }
