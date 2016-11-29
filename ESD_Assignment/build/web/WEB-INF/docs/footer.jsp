@@ -1,1 +1,1 @@
-<h1 class="h1">This is the Footer</h1>
+<h1 class="h1">Adam, George, Jack, Edwin, Rafi</h1>
