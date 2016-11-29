@@ -1,5 +1,6 @@
 <h1 class="h1">Login Page</h1>
     <%@page import="java.util.ArrayList"%>
+    <h2>Login as existing user</h2>
     <form action="<%=request.getContextPath()%>/docs/tryLogin">
         Username <input type="text" name="username"><br>
         Password <input type="password" name="password"><br>

@@ -1,4 +1,4 @@
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="controller.Front"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,6 +8,8 @@
         <title>Member Page</title>
     </head>
     <%
+        List<Integer> claimIds = Front.dbm.getClaimIds(session.getId());
+        List<Integer> paymentIds = Front.dbm.getPaymentIds(session.getId());
         
     %>
     <form action="<%=request.getContextPath()%>/docs/loginPage">
