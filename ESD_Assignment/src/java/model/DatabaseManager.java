@@ -2,6 +2,7 @@ package model;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -71,10 +72,10 @@ public class DatabaseManager {
                         return "Invalid Password";
                     }
                 }
-                
+
                 resultSet.next();
             }
-            
+
             return "User not found";
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -259,10 +260,9 @@ public class DatabaseManager {
         }
     }
 
-    public Boolean createNewClaim(String memberID, String claimDate, String claimDescription, double claimAmount) {
+    public Boolean createNewClaim(String memberID, String claimDescription, double claimAmount) {
         PreparedStatement ps = null;
-        //Auto-increment claimID
-        //Set status to APPLIED
+        String claimDate = Date.valueOf(LocalDate.now()) + "";
 
         //Can the user make a claim?
         //Check if the user status is approved i.e. are they a member?
@@ -274,13 +274,13 @@ public class DatabaseManager {
                 if (memberMadeLessThanTwoClaims(memberID)) {
                     try {
                         ps = con.prepareStatement("INSERT INTO claims VALUES (NULL,'" + memberID
-                                + "','" + claimDate + "','" + claimDescription + "','SUBMITTED'," + (claimAmount + "") + ")");
+                                + "','" + claimDate + "','" + claimDescription + "','SUBMITTED'," + claimAmount + ")");
                         ps.executeUpdate();
                         ps.close();
-                        System.out.println("1 row added.");
+                        System.out.println("1 row added to claims.");
                         return true;
                     } catch (SQLException ex) {
-                        System.out.println("Couldn't Insert");
+                        System.out.println("Couldn't Insert into claims");
                         Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
@@ -289,6 +289,24 @@ public class DatabaseManager {
             }
         }
         return false;
+    }
+
+    public Boolean createNewPayment(String memberID, String paymentType, double paymentAmount) {
+        PreparedStatement ps = null;
+        String paymentDateTime = (LocalDate.now().toString() + " " + LocalTime.now().toString().substring(0, 8));
+        
+        try {
+            ps = con.prepareStatement("INSERT INTO payments VALUES (NULL,'" + memberID
+                    + "','" + paymentType + "','" + paymentAmount + "','"+ paymentDateTime +"')");
+            ps.executeUpdate();
+            ps.close();
+            System.out.println("1 row added to payments.");
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Couldn't Insert into payments");
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     //Status user, set member status and user status, 
