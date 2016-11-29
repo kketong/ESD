@@ -34,18 +34,18 @@ public class DatabaseManager {
             String[] nameSplit = name.split(" ");
             String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
             String dor = Date.valueOf(LocalDate.now()).toString();
-            
+
             String[] passwordSplit = dob.split("-");
             String password = passwordSplit[2] + passwordSplit[1] + passwordSplit[0].substring(2, 4);
-            
+
             //Insert into members table
             String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
             insert("members", str);
             //Insert into users table
-            
+
             str = new String[]{id, password, "APPLIED"};
             insert("users", str);
-            
+
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,17 +53,45 @@ public class DatabaseManager {
         }
     }
 
+    public String verifyCredentials(String username, String password) {
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM users");
+            resultSet.first();
+
+            while (true) {
+                if (username.equals((String) resultSet.getObject(1))) {
+                    if (password.equals((String) resultSet.getObject(2))) {
+                        return (String) resultSet.getObject(3);
+                    } else {
+                        return "Invalid Password";
+                    }
+                }
+
+                if (resultSet.isLast()) {
+                    return "User not found";
+                } else {
+                    resultSet.next();
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
     public void insert(String tableName, String[] str) {
         PreparedStatement ps = null;
         String valuesString = "";
-        
+
         for (int i = 0; i < str.length; i++) {
             valuesString += "?";
-            if (i != str.length-1) {
+            if (i != str.length - 1) {
                 valuesString += ",";
             }
         }
-        
+
         try {
             ps = con.prepareStatement("INSERT INTO " + tableName + " VALUES (" + valuesString + ")", PreparedStatement.RETURN_GENERATED_KEYS);
             for (int i = 0; i < str.length; i++) {
@@ -77,7 +105,7 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public String[] retrieveUsers() {
         String[] userStrings = new String[1];
         try {
@@ -88,7 +116,7 @@ public class DatabaseManager {
             resultSet.last();
             int numberOfRows = resultSet.getRow();
             resultSet.first();
-            
+
             userStrings = new String[numberOfRows];
             for (int i = 0; i < userStrings.length; i++) {
                 userStrings[i] = "";
@@ -103,12 +131,10 @@ public class DatabaseManager {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-        
-        
+
         return userStrings;
     }
-    
+
     //Status user, set member status and user status, 
 
 //    public User getUser(String username) {
