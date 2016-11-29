@@ -60,7 +60,7 @@ public class DatabaseManager {
     public String verifyCredentials(String username, String password) {
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM users WHERE user='" + username + "' AND password='" + password +"'");
+            resultSet = statement.executeQuery("SELECT * FROM users WHERE id='" + username + "' AND password='" + password + "'");
             resultSet.first();
             if (resultSet.wasNull()) {
                 return "Invalid Credentials.";
@@ -281,74 +281,55 @@ public class DatabaseManager {
         return connectionName;
     }
 
-    public List<Integer> getClaimIds(String memberId) {
-        List<Integer> claimIds = new ArrayList();
+    public List<String> getClaims(String memberId) {
+        List<String> claims = new ArrayList();
 
         try {
             statement = con.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM claims WHERE mem_id='" + memberId + "'");
             resultSet.first();
-
-            while (!resultSet.isLast()) {
-                claimIds.add((int) resultSet.getObject(1));
-                resultSet.next();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return claimIds;
-    }
-
-    public List<Integer> getPaymentIds(String memberId) {
-        List<Integer> paymentIds = new ArrayList();
-
-        try {
-            statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM payments  WHERE mem_id='" + memberId + "'");
-            resultSet.first();
-
-            while (!resultSet.isLast()) {
-                if (memberId.equals((String) resultSet.getObject(2))) {
-                    paymentIds.add((int) resultSet.getObject(1));
+            int numberOfColumns = resultSet.getMetaData().getColumnCount();
+            do {
+                String claimString = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    claimString += (String) resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        claimString += "<";
+                    }
                 }
 
-                resultSet.next();
-            }
+                claims.add(claimString);
+            } while (resultSet.next());
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return paymentIds;
+        return claims;
     }
-    
-    public Object getClaimById(String id) {        
+
+    public List<String> getPayments(String memberId) {
+        List<String> payments = new ArrayList();
+
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM claims WHERE id='" + id + "'");
+            resultSet = statement.executeQuery("SELECT * FROM claims WHERE mem_id='" + memberId + "'");
             resultSet.first();
-            
-            return resultSet.getObject(1);
+            int numberOfColumns = resultSet.getMetaData().getColumnCount();
+            do {
+                String paymentString = "";
+                for (int j = 1; j <= numberOfColumns; j++) {
+                    paymentString += (String) resultSet.getObject(j);
+                    if (j != numberOfColumns) {
+                        paymentString += "<";
+                    }
+                }
 
+                payments.add(paymentString);
+            } while (resultSet.next());
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return null;
-    }
-    
-    public Object getPaymentById(String id) {        
-        try {
-            statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM payments WHERE id='" + id + "'");
-            resultSet.first();
-            
-            return resultSet.getObject(1);
 
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return null;
+        return payments;
     }
 }

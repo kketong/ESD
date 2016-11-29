@@ -16,10 +16,9 @@ import java.util.List;
 public class MemberModel {
     
     public List getClaims(String memberId) {
-        List<Integer> claimIds = Front.dbm.getClaimIds(memberId);
-        List claims = new ArrayList();
-        for (int id : claimIds) {
-            claims.add(Front.dbm.getClaimById(Integer.toString(id)));
+        List<String> claims = Front.dbm.getClaims(memberId);
+        for (String claim : claims) {
+            
         }
         return claims;
     }
