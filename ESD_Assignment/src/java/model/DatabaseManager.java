@@ -95,7 +95,7 @@ public class DatabaseManager {
                 for (int j = 1; j <= numberOfColumns; j++) {
                     entryStrings[i] += resultSet.getObject(j);
                     if (j != numberOfColumns) {
-                        entryStrings[i] += "?";
+                        entryStrings[i] += "<";
                     }
                 }
                 resultSet.next();
@@ -125,7 +125,7 @@ public class DatabaseManager {
                     for (int j = 1; j <= numberOfColumns; j++) {
                         tempString += resultSet.getObject(j);
                         if (j != numberOfColumns) {
-                            tempString += ".";
+                            tempString += "<";
                         }
                     }
                     entryStrings.add(tempString);
@@ -146,6 +146,30 @@ public class DatabaseManager {
         return returnArray;
     }
 
+    public String retrieveMemberStatus(String username) {
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT status FROM members WHERE id='" + username + "'");
+            resultSet.first();
+            return resultSet.getObject(1) + "";
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public String retrieveMemberDOR(String username) {
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT dor FROM members WHERE id='" + username + "'");
+            resultSet.first();
+            return resultSet.getObject(1) + "";
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     public Boolean setMemberandUserStatus(String username, String status) {
         PreparedStatement ps = null;
         try {
@@ -156,12 +180,59 @@ public class DatabaseManager {
             ps = con.prepareStatement("UPDATE users SET status='" + status + "' WHERE id='" + username + "'");
             ps.executeUpdate();
             ps.close();
-            
+
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+
+    public Boolean memberActiveForSixMonths(String username) {
+        String memberDOR = retrieveMemberDOR(username);
+        String[] dorStrings = Date.valueOf(memberDOR).toString().split("-");
+        String[] checkDateStrings = Date.valueOf(LocalDate.now()).toString().split("-");
+        int yearDiff = Integer.parseInt(checkDateStrings[0]) - Integer.parseInt(dorStrings[0]);
+        int monthDiff = Integer.parseInt(checkDateStrings[1]) - Integer.parseInt(dorStrings[1]) + (yearDiff * 12);
+
+        if (monthDiff > 6) {
+            return true;
+        } else if (monthDiff == 6) {
+            if (Integer.parseInt(checkDateStrings[2]) >= Integer.parseInt(dorStrings[2])) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    public Boolean memberMadeLessThanTwoClaims(String username) {
+        String[] checkDateStrings = Date.valueOf(LocalDate.now()).toString().split("-");
+        int currentYear = Integer.parseInt(checkDateStrings[0]);
+        
+        
+        
+        return true;
+    }
+
+    public Boolean createNewClaim(String memberID, String claimDate, String claimDescription, float claimAmount) {
+        //Auto-increment claimID
+        //Set status to APPLIED
+
+        //Can the user make a claim?
+        //Check if the user status is approved i.e. are they a member?
+        if (retrieveMemberStatus(memberID).equals("APPROVED")) {
+            //Check if the account was registered more than 6 months ago
+            if (memberActiveForSixMonths(memberID)) {
+                //Check if they have made less than 2 claims within the current year
+                
+            }
+        }
+
+        
+        return true;
     }
 
     //Status user, set member status and user status, 

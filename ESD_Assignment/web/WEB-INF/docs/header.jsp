@@ -8,3 +8,4 @@
     / <a href="<%=request.getContextPath()%>/docs/memberPage">member page</a>
     / <a href="<%=request.getContextPath()%>/docs/adminPage">admin page</a> /
 </div>
+<%=controller.Front.dbm.memberActiveForSixMonths("J-Moore")%>
