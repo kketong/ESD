@@ -60,22 +60,13 @@ public class DatabaseManager {
     public String verifyCredentials(String username, String password) {
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM users");
+            resultSet = statement.executeQuery("SELECT * FROM users WHERE user='" + username + "' AND password='" + password +"'");
             resultSet.first();
-
-            while (!resultSet.isLast()) {
-                if (username.equals((String) resultSet.getObject(1))) {
-                    if (password.equals((String) resultSet.getObject(2))) {
-                        return (String) resultSet.getObject(3);
-                    } else {
-                        return "Invalid Password";
-                    }
-                }
-                
-                resultSet.next();
+            if (resultSet.wasNull()) {
+                return "Invalid Credentials.";
+            } else {
+                return (String) resultSet.getObject(3);
             }
-            
-            return "User not found";
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -234,14 +225,11 @@ public class DatabaseManager {
 
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM claims");
+            resultSet = statement.executeQuery("SELECT * FROM claims WHERE mem_id='" + memberId + "'");
             resultSet.first();
 
             while (!resultSet.isLast()) {
-                if (memberId.equals((String) resultSet.getObject(2))) {
-                    claimIds.add((int) resultSet.getObject(1));
-                }
-
+                claimIds.add((int) resultSet.getObject(1));
                 resultSet.next();
             }
         } catch (SQLException ex) {
@@ -256,7 +244,7 @@ public class DatabaseManager {
 
         try {
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM payments");
+            resultSet = statement.executeQuery("SELECT * FROM payments  WHERE mem_id='" + memberId + "'");
             resultSet.first();
 
             while (!resultSet.isLast()) {
@@ -271,5 +259,35 @@ public class DatabaseManager {
         }
 
         return paymentIds;
+    }
+    
+    public Object getClaimById(String id) {        
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM claims WHERE id='" + id + "'");
+            resultSet.first();
+            
+            return resultSet.getObject(1);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
+    public Object getPaymentById(String id) {        
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM payments WHERE id='" + id + "'");
+            resultSet.first();
+            
+            return resultSet.getObject(1);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 }

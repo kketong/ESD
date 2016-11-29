@@ -64,12 +64,14 @@ public class Front extends HttpServlet {
                     case "ADMIN":
                         include = "adminPage.jsp";
                         request.setAttribute("username", request.getParameter("username"));
+                        request.setAttribute("status", status);
                         break OUTER;
                     case "APPLIED":
                     case "APPROVED":
                     case "SUSPENDED":
                         include = "memberPage.jsp";
                         request.setAttribute("username", request.getParameter("username"));
+                        request.setAttribute("status", status);
                         break OUTER;
                 }
             default:
