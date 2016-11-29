@@ -1,6 +1,6 @@
 <html>
     <body>
-        <h1 align="center">Admin Dashboard</h1>
+        <h1 class="h1"">Admin Dashboard</h1>
         <p>
         <div class="functionality" align="center">
             <form method="GET" action="<%=request.getContextPath()%>/AdminController">
