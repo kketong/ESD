@@ -29,8 +29,6 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String[] results = new String[10];
-        String result = "";
         List resultsList = new ArrayList();
 
         // Receive request from adminPage
@@ -42,18 +40,18 @@ public class AdminController extends HttpServlet {
         // Send to model & invoke one of three methods
         switch (c) {
             case "Check Approvals":
-                results = am.getApprovals();
+                resultsList = am.getApprovals();
                 break;
             case "Approve Outstanding":
-                result = am.approvalResult();
+                am.approvalResult();
                 break;
             case "List Claims":
                 resultsList = am.listClaims(id);
                 break;
-            case "Approve Claims":
-                am.approveClaims(id);
+            case "Approve Claim":
+                am.approveClaim(id);
                 break;
-            case "Reject Claims":
+            case "Reject Claim":
                 am.rejectClaim(id);
                 break;
         }
