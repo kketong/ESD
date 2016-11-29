@@ -33,34 +33,38 @@ public class DatabaseManager {
 
     public String registerNewMember(String name, String address, String dob) {
         //dob is in format 00-00-0000
-        
+        String[] nameSplit = name.split(" ");
+        String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
+        String dor = Date.valueOf(LocalDate.now()).toString();
+
+        String[] passwordSplit = dob.split("-");
+        //reverse dob
+        dob = passwordSplit[2] + "-" + passwordSplit[1] + "-" + passwordSplit[0];
+        //convert 00-00-0000 to 000000
+        String password = passwordSplit[0] + passwordSplit[1] + passwordSplit[2].substring(2, 4);
+
+        //Insert into members table
+        String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
+        insert("members", str);
+        //Insert into users table
+
+        str = new String[]{id, password, "APPLIED"};
+        insert("users", str);
+
+        return id;
+    }
+
+    public String retrieveMemberPassword(String username) {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
             statement = con.createStatement();
-
-            String[] nameSplit = name.split(" ");
-            String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
-            String dor = Date.valueOf(LocalDate.now()).toString();
-            
-            String[] passwordSplit = dob.split("-");
-            //reverse dob
-            dob = passwordSplit[2] + "-" + passwordSplit[1] + "-" + passwordSplit[0];
-            //convert 00-00-0000 to 000000
-            String password = passwordSplit[0] + passwordSplit[1] + passwordSplit[2].substring(2, 4);
-
-            //Insert into members table
-            String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
-            insert("members", str);
-            //Insert into users table
-
-            str = new String[]{id, password, "APPLIED"};
-            insert("users", str);
-
-            return id;
+            resultSet = statement.executeQuery("SELECT password FROM users WHERE id ='" + username + "'");
+            if (resultSet.first()) {
+                return (String)resultSet.getObject(1);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
         }
+        return "";
     }
 
     public String verifyCredentials(String username, String password) {
@@ -73,7 +77,6 @@ public class DatabaseManager {
             } else {
                 return (String) resultSet.getObject(3);
             }
-
 
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -292,10 +295,10 @@ public class DatabaseManager {
     public Boolean createNewPayment(String memberID, String paymentType, double paymentAmount) {
         PreparedStatement ps = null;
         String paymentDateTime = (LocalDate.now().toString() + " " + LocalTime.now().toString().substring(0, 8));
-        
+
         try {
             ps = con.prepareStatement("INSERT INTO payments VALUES (NULL,'" + memberID
-                    + "','" + paymentType + "','" + paymentAmount + "','"+ paymentDateTime +"')");
+                    + "','" + paymentType + "','" + paymentAmount + "','" + paymentDateTime + "')");
             ps.executeUpdate();
             ps.close();
             System.out.println("1 row added to payments.");
@@ -333,7 +336,7 @@ public class DatabaseManager {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return claims;
     }
 

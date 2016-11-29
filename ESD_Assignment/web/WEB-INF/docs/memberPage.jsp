@@ -8,9 +8,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Member Page</title>
     </head>
-    Hello, <%=getServletContext().getAttribute("currentUser") %>
-    Your password is: 
-    <h1> Claims </h1>
+    <h1>Member Page</h1>
+    Hello, <%=getServletContext().getAttribute("currentUser") %><br>
+    Your password is: <%=controller.Front.dbm.retrieveMemberPassword((String)getServletContext().getAttribute("currentUser")) %>
+    <h2> Claims </h2>
     <table>
         <tr>
             <th> Date Submitted </th>
@@ -32,7 +33,7 @@
             }
         %>
     </table>
-    <h1> Payments </h1>
+    <h2> Payments </h2>
     <table>
         <tr>
             <th>Type of Payment</th>
