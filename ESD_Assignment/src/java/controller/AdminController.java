@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,11 +29,13 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        String[] results = new String[10];
         String result = "";
-        String[] results = new String[1];
+        List resultsList = new ArrayList();
 
         // Receive request from adminPage
         String c = request.getParameter("action");
+        String id = request.getParameter("id");
 
         AdminModel am = new AdminModel();
 
@@ -42,15 +45,21 @@ public class AdminController extends HttpServlet {
                 results = am.getApprovals();
                 break;
             case "Approve Outstanding":
-                am.approvalResult();
+                result = am.approvalResult();
                 break;
-            case "approveClaim":
-                result = am.claimResult();
+            case "List Claims":
+                resultsList = am.listClaims(id);
+                break;
+            case "Approve Claims":
+                am.approveClaims(id);
+                break;
+            case "Reject Claims":
+                am.rejectClaim(id);
                 break;
         }
 
         // Send back to view (adminPage.jsp)
-        request.setAttribute("output", results);
+        request.setAttribute("output", resultsList);
         RequestDispatcher view = request.getRequestDispatcher("/docs/adminPage");
         view.forward(request, response);
     }
