@@ -44,7 +44,7 @@ public class DatabaseManager {
         String password = passwordSplit[0] + passwordSplit[1] + passwordSplit[2].substring(2, 4);
 
         //Insert into members table
-        String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "0"};
+        String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "10"};
         insert("members", str);
         //Insert into users table
 
@@ -65,6 +65,19 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
+    }
+    
+    public double retrieveMemberBalance(String username) {
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT balance FROM members WHERE id ='" + username + "'");
+            if (resultSet.first()) {
+                return Double.parseDouble(resultSet.getObject(1) + "");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     public String verifyCredentials(String username, String password) {
@@ -292,7 +305,8 @@ public class DatabaseManager {
         return false;
     }
 
-    public Boolean createNewPayment(String memberID, String paymentType, double paymentAmount) {
+    public Boolean createNewPayment(String memberID, double paymentAmount) {
+        String paymentType = "FEE";
         PreparedStatement ps = null;
         String paymentDateTime = (LocalDate.now().toString() + " " + LocalTime.now().toString().substring(0, 8));
 

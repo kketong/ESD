@@ -9,8 +9,10 @@
         <title>Member Page</title>
     </head>
     <h1>Member Page</h1>
-    Hello, <%=getServletContext().getAttribute("currentUser") %><br>
-    Your password is: <%=controller.Front.dbm.retrieveMemberPassword((String)getServletContext().getAttribute("currentUser")) %>
+    <% String memberID = (String)getServletContext().getAttribute("currentUser"); %>
+    Hello, <%=memberID%><br>
+    Your password is: <%=controller.Front.dbm.retrieveMemberPassword(memberID)%><br>
+    Your account balance is: <%=controller.Front.dbm.retrieveMemberBalance(memberID)%>
     <h2> Claims </h2>
     <table>
         <tr>
