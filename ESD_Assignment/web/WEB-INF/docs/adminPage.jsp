@@ -8,7 +8,7 @@
         <div class="functionality" align="center">
             <form method="GET" action="<%=request.getContextPath()%>/AdminController">
                 <input name="action" type=submit value='Check Approvals' class="button">
-                <input name="action" type=submit value='approveMember' class="button">
+                <input name="action" type=submit value='Approve Outstanding' class="button">
                 <input name="action" type=submit value='approveClaim' class="button">
             </form>
         </div>
