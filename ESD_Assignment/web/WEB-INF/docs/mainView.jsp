@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="/docs/web.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/web.css" media="screen" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Main JSP</title>
     </head>
