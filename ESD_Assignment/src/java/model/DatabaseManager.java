@@ -302,38 +302,6 @@ public class DatabaseManager {
         }
     }
 
-    //Status user, set member status and user status, 
-//    public User getUser(String username) {
-//        User tempUser = new User();
-//        String tempString = "";
-//
-//        try {
-//            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + connectionName, "root", "");
-//            statement = con.createStatement();
-//            resultSet = statement.executeQuery("SELECT * FROM users");
-//            ResultSetMetaData metaData = resultSet.getMetaData();
-//            int numberOfColumns = metaData.getColumnCount();
-//
-//            Boolean isFound = false;
-//            resultSet.first();
-//            while (!isFound) {
-//                tempUser.setUserID(resultSet.getObject(1) + "");
-//                tempUser.setUserPassword(resultSet.getObject(2) + "");
-//                tempUser.setUserStatus(resultSet.getObject(3) + "");
-//                if (tempUser.getUserID().equals(username)) {
-//                    isFound = true;
-//                }
-//                if (resultSet.isLast()) {
-//                    break;
-//                } else {
-//                    resultSet.next();
-//                }
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return tempUser;
-//    }
     public String getConnectionName() {
         return connectionName;
     }
