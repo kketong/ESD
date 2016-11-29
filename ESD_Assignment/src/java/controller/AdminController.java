@@ -41,8 +41,8 @@ public class AdminController extends HttpServlet {
             case "Check Approvals":
                 results = am.getApprovals();
                 break;
-            case "approveMember":
-                result = am.approvalResult();
+            case "Approve Outstanding":
+                am.approvalResult();
                 break;
             case "approveClaim":
                 result = am.claimResult();

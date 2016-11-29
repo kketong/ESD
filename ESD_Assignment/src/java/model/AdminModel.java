@@ -1,32 +1,26 @@
 package model;
 
+import controller.Front;
+
 /**
  *
  * @author Adam Matheson
  */
 public class AdminModel {
-
-    DatabaseManager dbm = new DatabaseManager("xyz_assoc");
     
     // List approvals
     public String[] getApprovals() {
-        //return "getApprovals";
-        
-        return dbm.retrieveAppliedMembers();
-        // while db has next entry
-        //     getUser.status
-        //     if status == APPROVAL
-        //         add to list
-        //     END
-        // END
-        // return list
+        return Front.dbm.retrieveAppliedMembers();
     }
 
     // Approve members
-    public String approvalResult() {
-        return "approvalResult";
-        // for each in getApprovals() list
-        //     set user.status = MEMBER
+    public void approvalResult() {
+        String[] outstandingApprovals = Front.dbm.retrieveAppliedMembers();
+        
+        for (int i = 0; i < outstandingApprovals.length; i++) {
+            String parts[] = outstandingApprovals[i].split("<");
+            Front.dbm.setMemberandUserStatus(parts[0], "APPROVED");
+        }
     }
 
     // Approve claims
