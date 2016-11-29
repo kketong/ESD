@@ -71,7 +71,6 @@ public class DatabaseManager {
                 ps.setString(i + 1, str[i]);
             }
             ps.executeUpdate();
-
             ps.close();
             System.out.println("1 row added.");
         } catch (SQLException ex) {
@@ -145,6 +144,24 @@ public class DatabaseManager {
         }
 
         return returnArray;
+    }
+
+    public Boolean setMemberandUserStatus(String username, String status) {
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement("UPDATE members SET status='" + status + "' WHERE id='" + username + "'");
+            ps.executeUpdate();
+            ps.close();
+
+            ps = con.prepareStatement("UPDATE users SET status='" + status + "' WHERE id='" + username + "'");
+            ps.executeUpdate();
+            ps.close();
+            
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     //Status user, set member status and user status, 
