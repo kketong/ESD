@@ -1,4 +1,4 @@
-<h1>HEADER</h1>
+<h1 class="h1">Welcome to our Website!</h1>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/web.css" media="screen" />
 
