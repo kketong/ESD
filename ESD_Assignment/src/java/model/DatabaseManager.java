@@ -59,14 +59,14 @@ public class DatabaseManager {
             statement = con.createStatement();
             resultSet = statement.executeQuery("SELECT password FROM users WHERE id ='" + username + "'");
             if (resultSet.first()) {
-                return (String)resultSet.getObject(1);
+                return (String) resultSet.getObject(1);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
-    
+
     public double retrieveMemberBalance(String username) {
         try {
             statement = con.createStatement();
@@ -218,10 +218,10 @@ public class DatabaseManager {
             return false;
         }
     }
-    
+
     public void setClaimStatus(String mem_id, String status) {
         PreparedStatement ps = null;
-                try {
+        try {
             ps = con.prepareStatement("UPDATE claims SET status='" + status + "' WHERE id='" + mem_id + "'");
             ps.executeUpdate();
             ps.close();
@@ -290,21 +290,21 @@ public class DatabaseManager {
             if (memberActiveForSixMonths(memberID)) {
                 System.out.println("Member Active for 6 months: create new claim");
                 //Check if they have made less than 2 claims within the current year
-                if (memberMadeLessThanTwoClaims(memberID)) {
-                    try {
-                        ps = con.prepareStatement("INSERT INTO claims VALUES (NULL,'" + memberID
-                                + "','" + claimDate + "','" + claimDescription + "','SUBMITTED'," + claimAmount + ")");
-                        ps.executeUpdate();
-                        ps.close();
-                        System.out.println("1 row added to claims.");
-                        return true;
-                    } catch (SQLException ex) {
-                        System.out.println("Couldn't Insert into claims");
-                        Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
-                        return false;
-                    }
-
+                //if (memberMadeLessThanTwoClaims(memberID)) {
+                try {
+                    ps = con.prepareStatement("INSERT INTO claims VALUES (NULL,'" + memberID
+                            + "','" + claimDate + "','" + claimDescription + "','SUBMITTED'," + claimAmount + ")");
+                    ps.executeUpdate();
+                    ps.close();
+                    System.out.println("1 row added to claims.");
+                    return true;
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't Insert into claims");
+                    Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+                    return false;
                 }
+
+                //}
             }
         }
         return false;
