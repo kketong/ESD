@@ -63,7 +63,7 @@ public class Front extends HttpServlet {
                         break OUTER;
                     case "ADMIN":
                         include = "adminPage.jsp";
-                        getServletContext().setAttribute("currentUser", request.getParameter("username"));
+                        getServletContext().setAttribute("currentUser", request.getParameter("username").toLowerCase());
                         getServletContext().setAttribute("status", status);
                         getServletContext().setAttribute("isNewUser", "false");
                         break OUTER;
@@ -71,7 +71,7 @@ public class Front extends HttpServlet {
                     case "APPROVED":
                     case "SUSPENDED":
                         include = "memberPage.jsp";
-                        getServletContext().setAttribute("currentUser", request.getParameter("username"));
+                        getServletContext().setAttribute("currentUser", request.getParameter("username").toLowerCase());
                         getServletContext().setAttribute("status", status);
                         getServletContext().setAttribute("isNewUser", "false");
                         break OUTER;

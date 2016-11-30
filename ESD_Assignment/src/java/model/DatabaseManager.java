@@ -32,17 +32,27 @@ public class DatabaseManager {
     }
 
     public String registerNewMember(String name, String address, String dob) {
-        //dob is in format 00-00-0000
+        //Set name to lower case so that the is is all lower case
+        name = name.toLowerCase();
         String[] nameSplit = name.split(" ");
         String id = nameSplit[0].charAt(0) + "-" + nameSplit[1];
         String dor = Date.valueOf(LocalDate.now()).toString();
 
         String[] passwordSplit = dob.split("-");
-        //reverse dob
+        //Reverse date of birth
         dob = passwordSplit[2] + "-" + passwordSplit[1] + "-" + passwordSplit[0];
-        //convert 00-00-0000 to 000000
+        //Generate password from date of birth
         String password = passwordSplit[0] + passwordSplit[1] + passwordSplit[2].substring(2, 4);
 
+        //Capitalise each word in name
+        name = "";
+        for (int i = 0; i < nameSplit.length; i++) {
+            name += nameSplit[i].substring(0, 1).toUpperCase() + nameSplit[i].substring(1, nameSplit[i].length());
+            if (i != nameSplit.length - 1) {
+                name += " ";
+            }
+        }
+        
         //Insert into members table
         String[] str = new String[]{id, name, address, dob, dor, "APPLIED", "10"};
         insert("members", str);
