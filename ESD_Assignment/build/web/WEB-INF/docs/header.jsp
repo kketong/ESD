@@ -4,9 +4,9 @@
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/web.css" media="screen" />
 
-<div class="navigation">
-    <a href="<%=request.getContextPath()%>/docs/homePage">Home</a>
-    / <a href="<%=request.getContextPath()%>/docs/loginPage">Login</a>
-    / <a href="<%=request.getContextPath()%>/docs/memberPage">Member Page</a>
-    / <a href="<%=request.getContextPath()%>/docs/adminPage">Admin Page</a> /
-</div>
+<ul>
+    <li><a href="<%=request.getContextPath()%>/docs/homePage">Home</a></li>
+    <li><a href="<%=request.getContextPath()%>/docs/loginPage">Login</a></li>
+    <li><a href="<%=request.getContextPath()%>/docs/memberPage">Member Page</a></li>
+    <li><a href="<%=request.getContextPath()%>/docs/adminPage">Admin Page</a></li>
+<ul>

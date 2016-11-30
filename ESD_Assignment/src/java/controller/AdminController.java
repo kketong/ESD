@@ -58,6 +58,9 @@ public class AdminController extends HttpServlet {
             case "Reject Claim":
                 am.rejectClaim(id);
                 break;
+            case "End of Year Charge":
+                am.endOfYearCharge();
+                break;
         }
 
         // Send back to view (adminPage.jsp)

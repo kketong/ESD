@@ -369,6 +369,73 @@ public class DatabaseManager {
         return claims;
     }
 
+    public List<Float> getAllClaims() {
+        List<Float> claims = new ArrayList();
+
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT amount FROM claims");
+
+            if (resultSet.first()) {
+                do {
+                    claims.add((Float) resultSet.getObject(1));
+                } while (resultSet.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return claims;
+    }
+
+    public List<String> retrieveAllMemberStatus() {
+        List<String> statuses = new ArrayList();
+        
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT status FROM members WHERE status<>'APPLIED'");
+            
+            if (resultSet.first()) {
+                do {
+                    statuses.add((String) resultSet.getObject(1));
+                } while (resultSet.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return statuses;
+    }
+    
+    public void chargeAll(float charge) {
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement("UPDATE members SET balance=balance+'" + charge + "' WHERE status<>'APPLIED'");
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public List<String> getNotApplied() {
+        List<String> statuses = new ArrayList();
+        
+        try {
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT id FROM members WHERE status<>'APPLIED'");
+            
+            if (resultSet.first()) {
+                do {
+                    statuses.add((String) resultSet.getObject(1));
+                } while (resultSet.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return statuses;
+    }
+
     public List<String> getPayments(String memberId) {
         List<String> payments = new ArrayList();
 
