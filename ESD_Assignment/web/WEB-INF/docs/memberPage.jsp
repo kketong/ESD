@@ -23,7 +23,7 @@
         </tr>
         <%
             List<String> claims = new ArrayList();
-            claims = Front.dbm.getClaims((String) getServletContext().getAttribute("currentUser"));
+            claims = Front.dbm.getClaims(memberID);
             for (String claim : claims) {
                 String[] claimString = claim.split("<");
                 out.println("<tr>"
