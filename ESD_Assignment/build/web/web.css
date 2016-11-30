@@ -32,11 +32,28 @@ h4 {
     font-family: Arial, Verdana, sans-serif; font-size: 24px; color: #A52A2A
 }
 
+table {
+    margin: 0 auto;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
 form {
     text-align: center;
     margin: 0 auto;
-    }
-    
+}
+
 navigation {
     float: left;
     font-family: QuicksandBook, Helvetica, Arial, sans-serif;
@@ -44,38 +61,38 @@ navigation {
     text-align: center;
 }
 
-				.navigation {
-					display: block;
-    				color: blue;
-    				text-align: center;
-    				padding: 14px 16px;
-    				text-decoration: none;
-				}
+.navigation {
+    display: block;
+    color: blue;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
 
 button {
-                background-color: #4CAF50;
-                border: none;
-                color: white;
-                padding: 16px 48px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                -webkit-transition-duration: 0.4s;
-                transition-duration: 0.4s;
-                cursor: pointer;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 48px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
 
 }
-            .button {
-                background-color: white; 
-                color: black; 
-                border: 2px solid #008CBA;
-            }
+.button {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+}
 
-            .button:hover {
-                background-color: #008CBA;
-                color: white;
+.button:hover {
+    background-color: #008CBA;
+    color: white;
 }
 
 a { font-family: Arial, Verdana, sans-serif; font-size: 18px; color: #483D8B; text-decoration: underline}

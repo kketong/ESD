@@ -33,6 +33,7 @@ public class AdminController extends HttpServlet {
 
         // Receive request from adminPage
         String c = request.getParameter("action");
+        String mem_id = request.getParameter("mem_id");
         String id = request.getParameter("id");
 
         AdminModel am = new AdminModel();
@@ -42,8 +43,8 @@ public class AdminController extends HttpServlet {
             case "Check Approvals":
                 resultsList = am.getApprovals();
                 break;
-            case "Approve Outstanding":
-                am.approvalResult();
+            case "Approve Outstanding Member":
+                am.approvalResult(mem_id);
                 break;
             case "List Claims":
                 resultsList = am.listClaims(id);

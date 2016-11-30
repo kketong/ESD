@@ -55,6 +55,8 @@
             }
         %>
     </table>
-    <form action="<%=request.getContextPath()%>/docs/loginPage">
+    <form action="<%=request.getContextPath()%>/docs/memberPage/makepayment">
+        <input type="text" name="amount">
+        <input type="submit" value="Make a payment">
     </form>
 </html>
