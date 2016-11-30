@@ -78,7 +78,7 @@ public class Front extends HttpServlet {
                 }
             case "/docs/memberPage/makepayment":
                 float amount =  Float.parseFloat(request.getParameter("amount"));
-                //dbm.createNewPayment(getServletContext().getAttribute("currentUser"), amount);
+                dbm.createNewPayment(getServletContext().getAttribute("currentUser"), amount);
                 include = "memberPage.jsp";
             default:
                 include = "error.jsp";
