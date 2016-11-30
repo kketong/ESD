@@ -105,7 +105,7 @@ public class DatabaseManager {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        return "Invalid Credentials.";
     }
 
     public void insert(String tableName, String[] str) {

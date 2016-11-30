@@ -6,7 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +73,9 @@ public class Front extends HttpServlet {
                         getServletContext().setAttribute("currentUser", request.getParameter("username").toLowerCase());
                         getServletContext().setAttribute("status", status);
                         getServletContext().setAttribute("isNewUser", "false");
+                        break OUTER;
+                    default:
+                        include = "error.jsp";
                         break OUTER;
                 }
             case "/docs/memberPage/makepayment":
