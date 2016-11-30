@@ -76,6 +76,10 @@ public class Front extends HttpServlet {
                         getServletContext().setAttribute("isNewUser", "false");
                         break OUTER;
                 }
+            case "/docs/memberPage/makepayment":
+                float amount =  Float.parseFloat(request.getParameter("amount"));
+                //dbm.createNewPayment(getServletContext().getAttribute("currentUser"), amount);
+                include = "memberPage.jsp";
             default:
                 include = "error.jsp";
         }

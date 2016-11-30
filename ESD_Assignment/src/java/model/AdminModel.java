@@ -16,14 +16,8 @@ public class AdminModel {
     }
 
     // Approve members
-    public String approvalResult() {
-        List<String> outstandingApprovals = Front.dbm.retrieveAppliedMembers();
-
-        for (String approval : outstandingApprovals) {
-            String parts[] = approval.split("<");
-            Front.dbm.setMemberandUserStatus(parts[0], "APPROVED");
-        }
-        return "Success";
+    public void approvalResult(String id) {
+            Front.dbm.setMemberandUserStatus(id, "APPROVED");
     }
 
     public List<String> listClaims(String id) {

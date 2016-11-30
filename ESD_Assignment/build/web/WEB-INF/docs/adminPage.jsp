@@ -8,7 +8,9 @@
         <div class="functionality">
             <form method="GET" action="<%=request.getContextPath()%>/AdminController">
                 <input name="action" type=submit value='Check Approvals' class="button">
-                <input name="action" type=submit value='Approve Outstanding' class="button">
+                <br>
+                <input name ="mem_id" type="input" value="Member ID">
+                <input name="action" type=submit value='Approve Outstanding Member' class="button">
                 <br>
                 <input name ="id" type="input" value="Member or Claim ID">
                 <input name="action" type=submit value='List Claims' class="button">
@@ -27,7 +29,7 @@
                                 + ", Status: " + parts[5]
                                 + "<br>");
                     }
-                } else if (request.getParameter("action").equals("Approve Outstanding")) {
+                } else if (request.getParameter("action").equals("Approve Outstanding Member")) {
                     String result = (String) request.getAttribute("output");
                     out.print(result);
                 } else if (request.getParameter("action").equals("List Claims")) {
