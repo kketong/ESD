@@ -10,7 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DatabaseManager;
+import model.CreationModel;
 
 /**
  *
@@ -18,10 +18,11 @@ import model.DatabaseManager;
  */
 public class Front extends HttpServlet {
 
-    public static DatabaseManager dbm = new DatabaseManager("xyz_assoc");
+    //public static DatabaseManager dbm = new DatabaseManager("xyz_assoc");
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        CreationModel creationModel = new CreationModel();
         String id; // process Request URL
         String page = "/WEB-INF/docs/mainView.jsp"; // what page to forward to ...
         String include; // page to include into mainView.jsp
@@ -43,7 +44,7 @@ public class Front extends HttpServlet {
                 include = "loginPage.jsp";
                 break;
             case "/docs/loginPage/registerNewUser":
-                getServletContext().setAttribute("currentUser", dbm.registerNewMember(request.getParameter("rName"), request.getParameter("rAddress"), request.getParameter("rDOB")));
+                getServletContext().setAttribute("currentUser", creationModel.registerNewMember(request.getParameter("rName"), request.getParameter("rAddress"), request.getParameter("rDOB")));
                 getServletContext().setAttribute("isNewUser", "true");
                 include = "memberPage.jsp";
                 break;
@@ -54,7 +55,7 @@ public class Front extends HttpServlet {
                 include = "adminPage.jsp";
                 break;
             case "/docs/tryLogin":
-                String status = dbm.verifyCredentials(request.getParameter("username"), request.getParameter("password"));
+                String status = creationModel.verifyCredentials(request.getParameter("username"), request.getParameter("password"));
                 switch (status) {
                     case "Invalid Credentials.":
                         include = "loginPage.jsp";
@@ -80,12 +81,12 @@ public class Front extends HttpServlet {
                 }
             case "/docs/memberPage/makepayment":
                 float paymentAmount =  Float.parseFloat((String) request.getParameter("paymentAmount"));
-                dbm.createNewPayment((String) getServletContext().getAttribute("currentUser"), paymentAmount);
+                creationModel.createNewPayment((String) getServletContext().getAttribute("currentUser"), paymentAmount);
                 include = "memberPage.jsp";
                 break;
             case "/docs/memberPage/makeclaim":
                 float claimAmount = Float.parseFloat((String) request.getParameter("claimAmount"));                
-                dbm.createNewClaim((String) getServletContext().getAttribute("currentUser"), (String) request.getParameter("claimDescription"), claimAmount);
+                creationModel.createNewClaim((String) getServletContext().getAttribute("currentUser"), (String) request.getParameter("claimDescription"), claimAmount);
                 include = "memberPage.jsp";
                 break;
             default:

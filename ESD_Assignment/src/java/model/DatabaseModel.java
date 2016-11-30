@@ -12,13 +12,13 @@ public class DatabaseModel {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName, "root", "");
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseModel.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return con;

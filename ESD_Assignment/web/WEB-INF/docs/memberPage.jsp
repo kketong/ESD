@@ -1,3 +1,4 @@
+<%@page import="model.MemberModel"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controller.Front"%>
 <%@page import="java.util.List"%>
@@ -9,10 +10,13 @@
         <title>Member Page</title>
     </head>
     <h1>Member Page</h1>
-    <% String memberID = (String) getServletContext().getAttribute("currentUser");%>
+    <% 
+        String memberID = (String) getServletContext().getAttribute("currentUser");
+        MemberModel memberModel = new MemberModel();
+    %>
     Hello, <%=memberID%><br>
-    Your password is: <%=controller.Front.dbm.retrieveMemberPassword(memberID)%><br>
-    Your account balance is: <%=controller.Front.dbm.retrieveMemberBalance(memberID)%>
+    Your password is: <%=memberModel.retrieveMemberPassword(memberID)%><br>
+    Your account balance is: <%=memberModel.retrieveMemberBalance(memberID)%>
     <h2>Claims</h2>
     <table>
         <tr>
@@ -23,7 +27,7 @@
         </tr>
         <%
             List<String> claims = new ArrayList();
-            claims = Front.dbm.getClaims(memberID);
+            claims = memberModel.getClaims(memberID);
             for (String claim : claims) {
                 String[] claimString = claim.split("<");
                 out.println("<tr>"
@@ -49,7 +53,7 @@
         </tr>
         <%
             List<String> payments = new ArrayList();
-            payments = Front.dbm.getPayments((String) getServletContext().getAttribute("currentUser"));
+            payments = memberModel.getPayments((String) getServletContext().getAttribute("currentUser"));
             for (String payment : payments) {
                 String[] paymentDetails = payment.split("<");
                 out.println("<tr>"

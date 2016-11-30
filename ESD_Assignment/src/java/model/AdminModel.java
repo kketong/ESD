@@ -37,7 +37,7 @@ public class AdminModel {
                 entryStrings.add(tempString);
             } while (resultSet.next());
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return entryStrings;
@@ -66,7 +66,7 @@ public class AdminModel {
                 payments.add(paymentString);
             } while (resultSet.next());
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return payments;
@@ -100,7 +100,7 @@ public class AdminModel {
                 claims.add(claimString);
             } while (resultSet.next());
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return claims;
@@ -143,7 +143,7 @@ public class AdminModel {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -163,7 +163,7 @@ public class AdminModel {
                 } while (resultSet.next());
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return statuses;
@@ -185,7 +185,7 @@ public class AdminModel {
                 } while (resultSet.next());
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return statuses;
@@ -207,7 +207,7 @@ public class AdminModel {
                 } while (resultSet.next());
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return claims;
     }
@@ -221,7 +221,7 @@ public class AdminModel {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -240,7 +240,7 @@ public class AdminModel {
 
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminModel.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
