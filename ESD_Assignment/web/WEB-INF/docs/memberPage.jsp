@@ -9,14 +9,14 @@
         <title>Member Page</title>
     </head>
     <h1>Member Page</h1>
-    <% String memberID = (String)getServletContext().getAttribute("currentUser"); %>
+    <% String memberID = (String) getServletContext().getAttribute("currentUser");%>
     Hello, <%=memberID%><br>
     Your password is: <%=controller.Front.dbm.retrieveMemberPassword(memberID)%><br>
     Your account balance is: <%=controller.Front.dbm.retrieveMemberBalance(memberID)%>
-    <h2> Claims </h2>
+    <h2>Claims</h2>
     <table>
         <tr>
-            <th> Date Submitted </th>
+            <th>Date Submitted</th>
             <th>Claim Rationale</th>
             <th>Status</th>
             <th>Amount</th>
@@ -35,7 +35,12 @@
             }
         %>
     </table>
-    <h2> Payments </h2>
+    <form action="<%=request.getContextPath()%>/docs/memberPage/makeclaim">
+        <input type="text" name="claimAmount" value="Amount">
+        <input type="text" name="claimDescription" value="Description">
+        <input type="submit" value="Make a claim">
+    </form>
+    <h2>Payments</h2>
     <table>
         <tr>
             <th>Type of Payment</th>
@@ -56,7 +61,7 @@
         %>
     </table>
     <form action="<%=request.getContextPath()%>/docs/memberPage/makepayment">
-        <input type="text" name="amount">
+        <input type="text" name="paymentAmount" value="Amount">
         <input type="submit" value="Make a payment">
     </form>
 </html>
