@@ -26,9 +26,11 @@ public class DatabaseManager {
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + dbName, "root", "");
             connectionName = dbName;
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     public String registerNewMember(String name, String address, String dob) {
