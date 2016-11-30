@@ -10,7 +10,6 @@
                 <input name="action" type=submit value='Check Approvals' class="button">
                 <br>
                 <input name ="mem_id" type="input" value="Member ID">
-                <input name="action" type=submit value='List Member Payments' class="button">
                 <input name="action" type=submit value='Approve Outstanding Member' class="button">
                 <br>
                 <input name ="id" type="input" value="Member or Claim ID">
@@ -30,19 +29,7 @@
                                 + ", Status: " + parts[5]
                                 + "<br>");
                     }
-                } else if (request.getParameter("action").equals("List Member Payments")){
-                    List<String> payments = (List) request.getAttribute("output");
-                    for (String payment : payments) {
-                        String parts[] = payment.split("<");
-                        out.println("Payment ID: " + parts[0]
-                                + ", Member ID: " + parts[1]
-                                + ", Payment Type: " + parts[2]
-                                + ", Amount: " + parts[3]
-                                + ", Payment Date: " + parts[4]
-                                + "<br>");
-                    }
-                }
-                else if (request.getParameter("action").equals("Approve Outstanding Member")) {
+                } else if (request.getParameter("action").equals("Approve Outstanding Member")) {
                     String result = (String) request.getAttribute("output");
                     out.print(result);
                 } else if (request.getParameter("action").equals("List Claims")) {
