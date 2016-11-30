@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -17,8 +12,6 @@ import model.CreationModel;
  * @author jacka
  */
 public class Front extends HttpServlet {
-
-    //public static DatabaseManager dbm = new DatabaseManager("xyz_assoc");
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -80,12 +73,12 @@ public class Front extends HttpServlet {
                         break OUTER;
                 }
             case "/docs/memberPage/makepayment":
-                float paymentAmount =  Float.parseFloat((String) request.getParameter("paymentAmount"));
+                float paymentAmount = Float.parseFloat((String) request.getParameter("paymentAmount"));
                 creationModel.createNewPayment((String) getServletContext().getAttribute("currentUser"), paymentAmount);
                 include = "memberPage.jsp";
                 break;
             case "/docs/memberPage/makeclaim":
-                float claimAmount = Float.parseFloat((String) request.getParameter("claimAmount"));                
+                float claimAmount = Float.parseFloat((String) request.getParameter("claimAmount"));
                 creationModel.createNewClaim((String) getServletContext().getAttribute("currentUser"), (String) request.getParameter("claimDescription"), claimAmount);
                 include = "memberPage.jsp";
                 break;
