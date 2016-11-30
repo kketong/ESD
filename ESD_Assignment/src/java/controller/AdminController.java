@@ -43,6 +43,9 @@ public class AdminController extends HttpServlet {
             case "Check Approvals":
                 resultsList = am.getApprovals();
                 break;
+            case "List Member Payments":
+                resultsList = am.listPayments(mem_id);
+                break;
             case "Approve Outstanding Member":
                 am.approvalResult(mem_id);
                 break;

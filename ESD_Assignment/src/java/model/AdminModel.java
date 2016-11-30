@@ -15,6 +15,10 @@ public class AdminModel {
         return Front.dbm.retrieveAppliedMembers();
     }
 
+    public List<String> listPayments(String mem_id) {
+        return Front.dbm.getPayments(mem_id);
+    }
+    
     // Approve members
     public void approvalResult(String id) {
             Front.dbm.setMemberandUserStatus(id, "APPROVED");
