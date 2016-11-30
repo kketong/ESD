@@ -17,6 +17,8 @@
                 <input name="action" type=submit value='List Claims' class="button">
                 <input name="action" type=submit value='Approve Claim' class="button">
                 <input name="action" type=submit value='Reject Claim' class="button">
+                <br>
+                <input name="action" type=submit value='End of Year Charge' class="button">
             </form>
         </div>
         <p>
@@ -30,7 +32,7 @@
                                 + ", Status: " + parts[5]
                                 + "<br>");
                     }
-                } else if (request.getParameter("action").equals("List Member Payments")){
+                } else if (request.getParameter("action").equals("List Member Payments")) {
                     List<String> payments = (List) request.getAttribute("output");
                     for (String payment : payments) {
                         String parts[] = payment.split("<");
@@ -41,8 +43,7 @@
                                 + ", Payment Date: " + parts[4]
                                 + "<br>");
                     }
-                }
-                else if (request.getParameter("action").equals("Approve Outstanding Member")) {
+                } else if (request.getParameter("action").equals("Approve Outstanding Member")) {
                     String result = (String) request.getAttribute("output");
                     out.print(result);
                 } else if (request.getParameter("action").equals("List Claims")) {
