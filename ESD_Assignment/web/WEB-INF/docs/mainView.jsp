@@ -18,7 +18,5 @@
         <%String included = (String) request.getAttribute("includedView");%>
         <br/>
         <jsp:include page="<%=included%>" flush="true" /> 
-
-        <jsp:include page="footer.jsp" flush="true" /> 
     </body>
 </html>

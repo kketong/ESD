@@ -3,7 +3,7 @@
 <%@page import="java.util.List"%>
 <html>
     <body>
-        <h1 align="center">Admin Dashboard</h1>
+        <h1>Admin Dashboard</h1>
         <p>
         <div class="functionality">
             <form method="GET" action="<%=request.getContextPath()%>/AdminController">
