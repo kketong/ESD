@@ -17,7 +17,7 @@
     %>
     <h2>Register a new user</h2>
     <form action="<%=request.getContextPath()%>/docs/loginPage/registerNewUser">
-        Name:<br><input type=text name='rName'><br>
+        Full Name:<br><input type=text name='rName'><br>
         Address:<br><input type=text name='rAddress'><br>
         Date of Birth (DD-MM-YYYY):<br><input type=text name='rDOB'><br>
         Username and password will be generated for you
