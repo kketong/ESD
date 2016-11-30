@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/web.css" media="screen" />
 
-<ul>
-    <li><a href="<%=request.getContextPath()%>/docs/homePage">Home</a></li>
-    <li><a href="<%=request.getContextPath()%>/docs/loginPage">Login</a></li>
-</ul>
+<div class="navigation">
+    <a href="<%=request.getContextPath()%>/docs/homePage">Home</a>
+    / <a href="<%=request.getContextPath()%>/docs/loginPage">Login</a>
+</div>

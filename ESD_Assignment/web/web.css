@@ -10,7 +10,7 @@ h1 {
     color: white;
     text-align: center;
     text-decoration: underline;
-    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    text-shadow: 1px 1px 2px grey, 0 0 25px blue, 0 0 5px darkblue;
     font-family: Arial, Verdana, sans-serif; font-size: 32px; color: #A52A2A 
 }
 
@@ -24,7 +24,7 @@ h2 {
 
 h3 {
     color: white;
-    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    text-shadow: 1px 1px 2px white, 0 0 25px blue, 0 0 5px darkblue;
     text-align: center;
     font-family: Arial, Verdana, sans-serif; font-size: 24px; color: #A52A2A
 }
@@ -57,19 +57,17 @@ form {
     margin: 0 auto;
 }
 
-ul {
+div {
     font-family: QuicksandBook, Helvetica, Arial, sans-serif;
     overflow: hidden;
+    text-align: center;
     margin: 0 auto;
     list-style-type: none;
     text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 }
 
-li {
-    float: left;
-}
 
-li a {
+.div {
     display: block;
     color: white;
     text-align: center;
